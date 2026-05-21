@@ -1,0 +1,15 @@
+venv/
+.venv/
+frontend/node_modules/
+frontend/dist/
+__pycache__/
+*.pyc
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.DS_Store
+.idea/
+.idea/workspace.xml
+data/raw/
+data/outputs/*.tmp

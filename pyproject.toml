@@ -1,0 +1,21 @@
+[project]
+name = "exoplanets-research"
+version = "0.1.0"
+description = "Literature-grounded exoplanet habitability and astrobiology research platform."
+requires-python = ">=3.11"
+dependencies = [
+  "pandas",
+  "numpy",
+  "pyyaml",
+  "matplotlib",
+  "seaborn",
+  "requests",
+]
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+

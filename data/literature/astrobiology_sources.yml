@@ -1,0 +1,240 @@
+- id: lovelock_1965_life_detection
+  title: "A physical basis for life detection experiments"
+  year: 1965
+  url: "https://pubmed.ncbi.nlm.nih.gov/5883628/"
+  category: foundation
+  evidence_type: "theoretical life-detection framework"
+  architecture_implication: "The platform must treat atmospheric disequilibrium as an interpretable evidence class rather than a generic habitability label."
+  model_application: "Reserve biosignature fields for observable chemistry and expose when the local data cannot support that inference."
+- id: sagan_1993_galileo_life_on_earth
+  title: "A search for life on Earth from the Galileo spacecraft"
+  year: 1993
+  url: "https://www.nature.com/articles/365715a0"
+  category: foundation
+  evidence_type: "remote-sensing control experiment"
+  architecture_implication: "Life-detection claims require multiple converging observations and a control-experiment mindset."
+  model_application: "Dashboard caveats must separate target-prioritization from evidence for life."
+- id: domagal_goldman_2016_astrobiology_primer
+  title: "The Astrobiology Primer v2.0"
+  year: 2016
+  url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC5008114/"
+  category: foundation
+  evidence_type: "interdisciplinary astrobiology synthesis"
+  architecture_implication: "Habitability ranking must combine astronomy, planetary science, geochemistry, and biology context."
+  model_application: "Use modular feature groups so future geochemical and biological evidence can be added without rewriting ingestion."
+- id: nasa_2015_astrobiology_strategy
+  title: "NASA Astrobiology Strategy 2015"
+  year: 2015
+  url: "https://assets.science.nasa.gov/content/dam/science/psd/astrobiology/for-researchers/strategy/nasa_astrobiology_strategy_2015_final_041216.pdf"
+  category: nasa_strategy
+  evidence_type: "agency science strategy"
+  architecture_implication: "The platform must be framed around origins, evolution, distribution, and future of life rather than only orbital habitability."
+  model_application: "Research docs map each model feature to a strategy-level astrobiology question."
+- id: nasem_2019_astrobiology_strategy
+  title: "An Astrobiology Strategy for the Search for Life in the Universe"
+  year: 2019
+  url: "https://nap.nationalacademies.org/catalog/25252/an-astrobiology-strategy-for-the-search-for-life-in-the-universe"
+  category: nasa_strategy
+  evidence_type: "national academies strategy report"
+  architecture_implication: "Biosignature preservation, false positives, and false negatives must be first-class evidence dimensions."
+  model_application: "Validation reports include limitations and missing-data penalties instead of only a ranked table."
+- id: nasem_2018_exoplanet_science_strategy
+  title: "Exoplanet Science Strategy"
+  year: 2018
+  url: "https://www.nationalacademies.org/read/25187"
+  category: nasa_strategy
+  evidence_type: "exoplanet science strategy report"
+  architecture_implication: "Known-planet catalogs should feed target prioritization for future observing facilities."
+  model_application: "Include follow-up readiness features such as distance and observable stellar/planet fields."
+- id: nasem_2021_astro2020
+  title: "Pathways to Discovery in Astronomy and Astrophysics for the 2020s"
+  year: 2021
+  url: "https://nap.nationalacademies.org/astro2020"
+  category: observatory_architecture
+  evidence_type: "decadal survey"
+  architecture_implication: "The system should align candidate outputs with future observatory target-prioritization needs."
+  model_application: "Export candidate tables with interpretable evidence columns suitable for follow-up planning."
+- id: nasem_2022_origins_worlds_life
+  title: "Origins, Worlds, and Life: A Decadal Strategy for Planetary Science and Astrobiology 2023-2032"
+  year: 2022
+  url: "https://nap.nationalacademies.org/catalog/26522/origins-worlds-and-life-a-decadal-strategy-for-planetary-science-and-astrobiology-2023-2032"
+  category: nasa_strategy
+  evidence_type: "planetary science and astrobiology decadal survey"
+  architecture_implication: "Architecture should support cross-mission astrobiology questions and preserve assumptions for reuse."
+  model_application: "Documentation describes how exoplanet ranking can interoperate with broader life-detection strategy."
+- id: schwieterman_2018_biosignature_review
+  title: "Exoplanet Biosignatures: A Review of Remotely Detectable Signs of Life"
+  year: 2018
+  url: "https://journals.sagepub.com/doi/10.1089/ast.2017.1729"
+  category: biosignature_review
+  evidence_type: "biosignature review"
+  architecture_implication: "Scoring must separate possible biosignature observables from the environmental context needed to interpret them."
+  model_application: "Add caveats that no atmospheric biosignature can be inferred from current catalog fields alone."
+- id: catling_2018_biosignature_framework
+  title: "Exoplanet Biosignatures: A Framework for Their Assessment"
+  year: 2018
+  url: "https://journals.sagepub.com/doi/abs/10.1089/ast.2017.1737"
+  category: evidence_framework
+  evidence_type: "probabilistic biosignature assessment"
+  architecture_implication: "Scoring must track candidate evidence and plausible abiotic alternatives instead of producing a single unexplained score."
+  model_application: "Expose sub-scores, penalties, confidence labels, and interpretation caveats for every candidate."
+- id: meadows_2018_oxygen_context
+  title: "Exoplanet Biosignatures: Understanding Oxygen as a Biosignature in the Context of Its Environment"
+  year: 2018
+  url: "https://arxiv.org/abs/1705.07560"
+  category: biosignature_review
+  evidence_type: "oxygen biosignature context review"
+  architecture_implication: "No gas should be treated as decisive without stellar, atmospheric, and planetary context."
+  model_application: "Use conservative language and future-ready columns for context rather than hard-coded oxygen claims."
+- id: walker_2018_future_directions
+  title: "Exoplanet Biosignatures: Future Directions"
+  year: 2018
+  url: "https://journals.sagepub.com/doi/10.1089/ast.2017.1738"
+  category: evidence_framework
+  evidence_type: "future biosignature framework"
+  architecture_implication: "The platform should support agnostic and statistical biosignature ideas without assuming Earth-only biology."
+  model_application: "Keep feature engineering extensible and label the current score as follow-up prioritization."
+- id: krissansen_totton_2018_disequilibrium
+  title: "Disequilibrium biosignatures over Earth history and implications for detecting exoplanet life"
+  year: 2018
+  url: "https://arxiv.org/abs/1801.08211"
+  category: biosignature_review
+  evidence_type: "chemical disequilibrium biosignature study"
+  architecture_implication: "Disequilibrium needs atmospheric composition and uncertainty modeling, which must not be faked from catalog metadata."
+  model_application: "Add explicit unavailable-biosignature caveats when atmospheric fields are absent."
+- id: neveu_2018_ladder_life_detection
+  title: "The Ladder of Life Detection"
+  year: 2018
+  url: "https://journals.sagepub.com/doi/abs/10.1089/ast.2017.1773"
+  category: evidence_framework
+  evidence_type: "life-detection evidence ladder"
+  architecture_implication: "Evidence should be communicated as graded confidence, not binary detection."
+  model_application: "Use `evidence_confidence` labels and validation notes in ranked outputs."
+- id: green_2024_cold_scale_response
+  title: "Moving toward a framework for communicating the confidence of life detection"
+  year: 2024
+  url: "https://www.nature.com/articles/s41550-023-02135-1"
+  category: evidence_framework
+  evidence_type: "confidence communication framework"
+  architecture_implication: "Scientific communication must avoid sensational claims and expose the maturity of evidence."
+  model_application: "Frontend and reports use caveats and confidence labels for every ranked candidate."
+- id: community_2022_biosignature_standards
+  title: "Community Report from the Biosignatures Standards of Evidence Workshop"
+  year: 2022
+  url: "https://arxiv.org/abs/2210.14293"
+  category: evidence_framework
+  evidence_type: "community standards report"
+  architecture_implication: "Verification and reporting protocols are part of the scientific product, not an afterthought."
+  model_application: "Validation report documents provenance, assumptions, and unsupported inference boundaries."
+- id: nasa_exoplanet_archive_docs
+  title: "NASA Exoplanet Archive Overview and Holdings"
+  year: 2026
+  url: "https://exoplanetarchive.ipac.caltech.edu/docs/intro.html"
+  category: data_infrastructure
+  evidence_type: "data archive documentation"
+  architecture_implication: "The archive is the canonical data source and should remain traceable through sidecar provenance."
+  model_application: "Every generated table records source file, row count, generation stage, and timestamp."
+- id: nasa_exoplanet_archive_tap_docs
+  title: "Retrieving Exoplanet Archive Data With Table Access Protocol"
+  year: 2025
+  url: "https://exoplanetarchive.ipac.caltech.edu/docs/TAP/usingTAP.html"
+  category: data_infrastructure
+  evidence_type: "TAP access documentation"
+  architecture_implication: "Live archive access should be supported without making tests depend on network availability."
+  model_application: "Implement a query builder and keep live retrieval behind explicit execution paths."
+- id: akeson_2013_exoplanet_archive
+  title: "The NASA Exoplanet Archive: Data and Tools for Exoplanet Research"
+  year: 2013
+  url: "https://www.ipac.caltech.edu/publication/2013PASP..125..989A"
+  category: data_infrastructure
+  evidence_type: "archive platform paper"
+  architecture_implication: "A scientific platform must combine curated data access with reproducible analysis tooling."
+  model_application: "Separate ingestion, cleaning, scoring, and frontend export modules."
+- id: emac_platform
+  title: "NASA Exoplanet Modeling and Analysis Center"
+  year: 2026
+  url: "https://emac.gsfc.nasa.gov/"
+  category: platform
+  evidence_type: "modeling and analysis platform"
+  architecture_implication: "Research tools should be searchable, categorized, and connected to model outputs."
+  model_application: "Machine-readable literature and model registries drive documentation and dashboard traceability."
+- id: renaud_2022_emac
+  title: "The Exoplanet Modeling and Analysis Center at NASA Goddard"
+  year: 2022
+  url: "https://arxiv.org/abs/2209.04005"
+  category: platform
+  evidence_type: "platform architecture paper"
+  architecture_implication: "The repository should distinguish hosted artifacts, external resources, and reproducible local outputs."
+  model_application: "Use directory boundaries for raw data, processed data, outputs, docs, and frontend exports."
+- id: vpl_about
+  title: "Virtual Planetary Laboratory"
+  year: 2026
+  url: "https://vpl.uw.edu/about-us/"
+  category: platform
+  evidence_type: "interdisciplinary modeling platform"
+  architecture_implication: "Astrobiology platforms need modular models for planets, atmospheres, spectra, and environments."
+  model_application: "Keep current catalog scoring modular so future spectral and climate models can be added."
+- id: vpl_spectral_explorer
+  title: "VPL Spectral Explorer"
+  year: 2026
+  url: "https://vpl.uw.edu/models/vpl-spectral-explorer/"
+  category: platform
+  evidence_type: "spectral model exploration tool"
+  architecture_implication: "Candidate prioritization should prepare data for future spectral model comparison."
+  model_application: "Frontend includes evidence breakdowns and caveats rather than static rank-only charts."
+- id: nasa_life_detection_resources
+  title: "Astrobiology Resources for Life Detection Missions"
+  year: 2026
+  url: "https://science.nasa.gov/astrobiology/researchers/life-detection-resources/"
+  category: platform
+  evidence_type: "NASA life-detection resource index"
+  architecture_implication: "The platform should connect evidence standards with reusable community tools and repositories."
+  model_application: "Research documentation lists platform dependencies and future integration points."
+- id: nasa_life_detection_knowledge_base
+  title: "NASA Life Detection Knowledge Base"
+  year: 2025
+  url: "https://science.nasa.gov/astrobiology/researchers/life-detection-resources/ldkb/"
+  category: platform
+  evidence_type: "life-detection knowledge platform"
+  architecture_implication: "Life-detection arguments should be represented as structured evidence and counter-evidence rather than narrative-only notes."
+  model_application: "Future iterations can convert caveats into machine-readable true-positive and false-positive argument fields."
+- id: nasa_ahed
+  title: "Astrobiology Habitable Environments Database"
+  year: 2024
+  url: "https://www.nasa.gov/space-science-and-astrobiology-at-ames/division-overview/exobiology-branch-overview-stx/astrobiology-habitable-environments-database-ahed/"
+  category: platform
+  evidence_type: "open-science astrobiology data platform"
+  architecture_implication: "Long-tail astrobiology data requires explicit metadata, provenance, and flexible schemas."
+  model_application: "Generated CSV and JSON artifacts use sidecar provenance and stable columns for downstream reuse."
+- id: nasa_nfold
+  title: "The Network for Life Detection"
+  year: 2026
+  url: "https://science.nasa.gov/astrobiology/researchers/rcns/nfold/"
+  category: platform
+  evidence_type: "life-detection research coordination network"
+  architecture_implication: "Life-detection expertise must connect mission planning, instrument design, and interpretation standards."
+  model_application: "Architecture docs include mission-facing validation and conservative evidence communication."
+- id: hwo_program_page
+  title: "Habitable Worlds Observatory"
+  year: 2026
+  url: "https://science.nasa.gov/astrophysics/programs/habitable-worlds-observatory/"
+  category: observatory_architecture
+  evidence_type: "mission program description"
+  architecture_implication: "Target ranking should be compatible with direct-imaging and atmospheric-characterization goals."
+  model_application: "Follow-up readiness score rewards nearby systems and complete observable context."
+- id: hwo_2026_concept_maturation
+  title: "Habitable Worlds Observatory's Concept and Technology Maturation: Initial Feasibility and Trade Space Exploration"
+  year: 2026
+  url: "https://ntrs.nasa.gov/citations/20260000389"
+  category: observatory_architecture
+  evidence_type: "mission architecture and trade-space paper"
+  architecture_implication: "Candidate outputs should expose assumptions that matter for observatory trade-space studies."
+  model_application: "Validation report identifies which ranked candidates require stronger measurements before mission relevance."
+- id: hwo_2026_early_architecture_concepts
+  title: "Early Architecture Concepts for the Habitable Worlds Observatory - System Design, Modeling, and Analysis"
+  year: 2026
+  url: "https://arxiv.org/abs/2602.11046"
+  category: observatory_architecture
+  evidence_type: "early architecture concepts paper"
+  architecture_implication: "Architecture decisions should support iteration as telescope concepts mature."
+  model_application: "Use stable CSV/JSON outputs so downstream dashboards and future model adapters can evolve independently."
