@@ -85,7 +85,7 @@ Generated outputs:
 | `data/processed/canonical_exoplanets.csv` | 5,921 | 290 | One selected row per `pl_name`, with duplicate metadata. |
 | `data/processed/habitable_zone_exoplanets.csv` | 4,236 | 296 | Canonical rows with orbit and luminosity sufficient for HZ calculation. |
 | `data/outputs/astrobiology_ranked_candidates.csv` | 4,236 | 327 | ECTP-ranked candidates with sub-scores, profile metadata, caveats, HZ model fields, and uncertainty summary columns. |
-| `data/outputs/astrobiology_uncertainty_samples.csv` | 2,118,000 | 5 | 500 Monte Carlo runs, reduced to rank-stability essentials. |
+| `data/outputs/experiments/paper_v1/intermediate/astrobiology_uncertainty_samples.csv` | 2,118,000 | 5 | 500 Monte Carlo runs, reduced to rank-stability essentials; reproducible intermediate ignored by Git. |
 | `data/outputs/astrobiology_rank_uncertainty.csv` | 4,236 | 7 | Score mean/std, rank quantiles, and top-10 probability. |
 | `data/outputs/experiments/paper_v1/hz_model_comparison.csv` | 3 | 6 | Model-level top-k overlap and HZ candidate counts. |
 | `data/outputs/experiments/paper_v1/baseline_comparison.csv` | 2 | 7 | ECTP versus HZ-radius and follow-up-readiness baselines. |
@@ -215,7 +215,7 @@ Largest generated or source artifacts from the current validation run:
 | `data/processed/canonical_exoplanets.csv` | 11M |
 | `data/outputs/astrobiology_ranked_candidates.csv` | 9.9M |
 | `data/processed/habitable_zone_exoplanets.csv` | 8.1M |
-| `data/outputs/astrobiology_uncertainty_samples.csv` | 86M |
+| `data/outputs/experiments/paper_v1/intermediate/astrobiology_uncertainty_samples.csv` | 86M |
 
 ## Conservative Language Check
 

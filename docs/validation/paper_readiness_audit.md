@@ -34,5 +34,5 @@ Generated on 2026-05-22 for `docs/superpowers/plans/2026-05-22-scientific-paper-
 
 ## Residual Engineering Notes
 
-- `data/outputs/astrobiology_uncertainty_samples.csv` is about 86 MB. GitHub accepts it, but future larger runs should move sample-level artifacts to a release asset, object storage, or Git LFS.
+- Full Monte Carlo sample rows now belong under `data/outputs/experiments/paper_v1/intermediate/` and are ignored by Git. The tracked uncertainty artifact is `data/outputs/astrobiology_rank_uncertainty.csv`.
 - GitHub Actions reports a Node.js 20 action-runtime deprecation warning for upstream actions. The workflow still passes, but the actions should be updated when GitHub publishes Node 24-compatible versions.

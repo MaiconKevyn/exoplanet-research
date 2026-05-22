@@ -18,7 +18,16 @@ from exoplanets_research.uncertainty.monte_carlo import generate_uncertainty_sam
 
 DEFAULT_INPUT = DATA_DIR / "PS_2025.06.22_09.41.26.csv"
 DEFAULT_EXPERIMENT_CONFIG = Path("configs/experiments/paper_v1.yml")
+DEFAULT_UNCERTAINTY_SAMPLES_PATH = (
+    DATA_DIR / "outputs" / "experiments" / "paper_v1" / "intermediate" / "astrobiology_uncertainty_samples.csv"
+)
 PIPELINE_GENERATOR = "src/exoplanets_research/pipeline.py"
+
+
+def _default_uncertainty_samples_path(output_root: Path, outputs_dir: Path) -> Path:
+    if output_root.resolve() == DATA_DIR.resolve():
+        return DEFAULT_UNCERTAINTY_SAMPLES_PATH
+    return outputs_dir / "experiments" / "paper_v1" / "intermediate" / "astrobiology_uncertainty_samples.csv"
 
 
 def run_pipeline(
@@ -33,6 +42,7 @@ def run_pipeline(
     uncertainty_seed: int = 42,
     paper_artifacts: bool = False,
     experiment_config: Path = DEFAULT_EXPERIMENT_CONFIG,
+    uncertainty_samples_path: Path | None = None,
 ) -> dict[str, Path]:
     input_path = Path(input_path)
     output_root = Path(output_root)
@@ -85,7 +95,10 @@ def run_pipeline(
             hz_model=hz_model,
             scoring_config=scoring_config,
         )
-        uncertainty_samples_path = outputs_dir / "astrobiology_uncertainty_samples.csv"
+        if uncertainty_samples_path is None:
+            uncertainty_samples_path = _default_uncertainty_samples_path(output_root, outputs_dir)
+        uncertainty_samples_path = Path(uncertainty_samples_path)
+        uncertainty_samples_path.parent.mkdir(parents=True, exist_ok=True)
         uncertainty_samples.to_csv(uncertainty_samples_path, index=False)
         uncertainty_summary = summarize_rank_uncertainty(uncertainty_samples, top_k=10)
         uncertainty_summary_path = outputs_dir / "astrobiology_rank_uncertainty.csv"
@@ -126,6 +139,7 @@ def main() -> None:
     parser.add_argument("--score-profile", type=Path, default=DEFAULT_SCORING_CONFIG_PATH)
     parser.add_argument("--uncertainty-runs", type=int, default=0)
     parser.add_argument("--uncertainty-seed", type=int, default=42)
+    parser.add_argument("--uncertainty-samples-path", type=Path)
     parser.add_argument("--paper-artifacts", action="store_true")
     parser.add_argument("--experiment-config", type=Path, default=DEFAULT_EXPERIMENT_CONFIG)
     args = parser.parse_args()
@@ -137,6 +151,7 @@ def main() -> None:
         score_profile=args.score_profile,
         uncertainty_runs=args.uncertainty_runs,
         uncertainty_seed=args.uncertainty_seed,
+        uncertainty_samples_path=args.uncertainty_samples_path,
         paper_artifacts=args.paper_artifacts,
         experiment_config=args.experiment_config,
     )

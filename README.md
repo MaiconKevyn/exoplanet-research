@@ -328,6 +328,7 @@ rg -n "life[ ]found|alien[ ]life|proof[ ]of[ ]life|confirmed[ ]life|biosignature
 | `data/outputs/astrobiology_ranked_candidates.csv` | Ranked candidates with sub-scores, penalties, confidence, and caveats. |
 | `data/outputs/astrobiology_rank_uncertainty.csv` | 500-run score/rank uncertainty summary for every ranked candidate. |
 | `data/outputs/experiments/paper_v1/*.csv` | Paper experiment comparison tables for HZ models, baselines, score sensitivity, and external validation. |
+| `data/outputs/experiments/paper_v1/intermediate/astrobiology_uncertainty_samples.csv` | Reproducible Monte Carlo sample rows; ignored by Git because it is a large intermediate. |
 | `data/outputs/astrobiology_ranked_candidates.provenance.json` | Provenance metadata for the ranked output. |
 | `frontend/src/data/astrobiology_ranked_candidates.json` | Dashboard-ready export of ranked candidates. |
 

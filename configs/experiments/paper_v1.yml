@@ -9,6 +9,7 @@ score_profiles:
 uncertainty:
   runs: 500
   seed: 42
+  samples_path: data/outputs/experiments/paper_v1/intermediate/astrobiology_uncertainty_samples.csv
 top_k:
   - 10
   - 25

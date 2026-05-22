@@ -13,6 +13,7 @@ __pycache__/
 .idea/workspace.xml
 data/raw/
 data/outputs/*.tmp
+data/outputs/astrobiology_uncertainty_samples.csv
 data/external/*
 !data/external/README.md
 !data/external/.gitkeep

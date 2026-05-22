@@ -66,6 +66,12 @@ def test_pipeline_writes_uncertainty_outputs(tmp_path):
     summary = pd.read_csv(outputs["rank_uncertainty"])
     ranked = pd.read_csv(outputs["ranked"])
 
+    assert outputs["uncertainty_samples"].parts[-4:] == (
+        "experiments",
+        "paper_v1",
+        "intermediate",
+        "astrobiology_uncertainty_samples.csv",
+    )
     assert set(samples["run_id"]) == {0, 1}
     assert {"score_mean", "rank_median", "rank_p05", "rank_p95", "top10_probability"}.issubset(summary.columns)
     assert ranked["score_mean"].notna().all()
