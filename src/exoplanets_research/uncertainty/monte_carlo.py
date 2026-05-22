@@ -90,7 +90,7 @@ def generate_uncertainty_samples(
         scored = score_candidates(featured, config=scoring_config)
         scored["run_id"] = run_id
         scored["uncertainty_seed"] = seed
-        samples.append(scored)
+        samples.append(scored[["run_id", "pl_name", "hostname", "score_total", "uncertainty_seed"]])
     if not samples:
         return pd.DataFrame()
     return pd.concat(samples, ignore_index=True)
