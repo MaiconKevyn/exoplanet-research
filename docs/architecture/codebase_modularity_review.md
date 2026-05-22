@@ -82,16 +82,16 @@ These artifacts are part of the scientific record and can be reviewed in Git:
 
 Sample-level Monte Carlo artifacts are reproducible intermediates governed by `docs/architecture/artifact_policy.md`.
 
-## Current Maintenance Risks
+## Maintenance Risks Reviewed
 
 | Risk | Current Evidence | Target Remediation |
 | --- | --- | --- |
-| Experiment runner concentration | `src/exoplanets_research/experiments/run_ablation.py` mixes manifest loading, ranking, comparisons, external validation, inventory, table writing, plotting, and CLI. | Split into `manifest.py`, `candidates.py`, `comparisons.py`, `external_validation.py`, and `artifacts.py`. |
-| Pipeline side effects | `pipeline.py` writes provenance and frontend JSON directly and imports experiment helpers inside `run_pipeline`. | Move low-level writers to `data/outputs.py` and `io/provenance.py`. |
-| Paper artifact coupling | `paper/figures.py` contains both plotting and Markdown table writing. | Move table logic to `paper/tables.py`. |
-| Test concentration | `tests/test_pipeline_outputs.py` covers archive, provenance, uncertainty, profile overrides, and paper exports. | Split by behavior: archive, smoke, uncertainty, paper export. |
-| Legacy script ambiguity | Exploratory scripts live under `src/` outside the package namespace. | Move to `scripts/legacy/` with a README. |
-| Generated artifact pressure | Large sample-level outputs are versioned alongside summary outputs. | Define tracked versus reproducible-intermediate artifact classes. |
+| Experiment runner concentration | Resolved: `run_ablation.py` is now a CLI facade and the logic lives in focused `experiments/*` modules. | Keep new experiment behavior in the owning module instead of expanding the CLI facade. |
+| Pipeline side effects | Resolved: provenance, frontend JSON, uncertainty summary attachment, and paper artifact hooks are separated from core orchestration. | Keep `pipeline.py` focused on execution order and public CLI arguments. |
+| Paper artifact coupling | Resolved: Markdown tables live in `paper/tables.py`; plots remain in `paper/figures.py`. | Keep serialization and plotting changes separate. |
+| Test concentration | Resolved: pipeline tests are split into archive, smoke, uncertainty, and paper export files. | Add future tests to the behavior-specific file. |
+| Legacy script ambiguity | Resolved: exploratory scripts now live under `scripts/legacy/` with a local README. | Do not add production code under `scripts/legacy/`. |
+| Generated artifact pressure | Resolved for Monte Carlo samples: full sample rows are ignored under experiment `intermediate/`; summaries stay tracked. | Use `docs/architecture/artifact_policy.md` for future generated artifacts. |
 
 ## Rules For Future Changes
 
@@ -105,10 +105,33 @@ Sample-level Monte Carlo artifacts are reproducible intermediates governed by `d
 
 ## Post-Refactor Review
 
-This section must be updated after completing the roadmap with:
+Completed on 2026-05-22.
 
-- final Python line-count distribution;
-- final test commands and results;
-- final reproduction command result;
-- any scientific-output changes, or a declaration that no formula/ranking semantics changed;
-- remaining risks that should be handled after this cleanup.
+Final largest Python modules after cleanup:
+
+| File | Lines | Review note |
+| --- | ---: | --- |
+| `src/exoplanets_research/experiments/comparisons.py` | 173 | Largest remaining module; owns three related experiment comparisons and can be split later if new comparison families are added. |
+| `src/exoplanets_research/pipeline.py` | 163 | Acceptable as public orchestration and CLI surface. Low-level writers have been extracted. |
+| `src/exoplanets_research/habitability/hz_models.py` | 126 | Scientific model formulas remain centralized and tested. |
+| `src/exoplanets_research/experiments/external_validation.py` | 110 | Owns external target validation and inventory generation. |
+| `src/exoplanets_research/uncertainty/monte_carlo.py` | 96 | Owns uncertainty sampling and summary. |
+
+Validation evidence:
+
+- `find src tests -name "*.py" -print0 | xargs -0 wc -l | sort -n` completed; total Python lines: 2,275.
+- `find src/exoplanets_research -name "*.py" -print0 | xargs -0 .venv/bin/python -m py_compile` completed with no import or syntax failures.
+- `.venv/bin/python -m pytest -q` passed with 34 tests after the cleanup.
+- `npm --prefix frontend run build` passed; Vite still warns that the static dashboard bundle is large.
+
+Scientific-output status:
+
+- No scoring formula, HZ formula, or ranking semantics were intentionally changed during this cleanup.
+- The artifact contract changed for full Monte Carlo samples: `data/outputs/astrobiology_uncertainty_samples.csv` was removed from Git tracking, and reproducible full samples now write to `data/outputs/experiments/paper_v1/intermediate/astrobiology_uncertainty_samples.csv`.
+- Tracked scientific summaries, paper tables, figures, manifests, provenance, and frontend JSON remain the reviewable scientific record.
+
+Remaining engineering risks:
+
+- `experiments/comparisons.py` should be split further if additional comparison families are added.
+- The frontend bundle remains large because it embeds static candidate JSON; a future dashboard should lazy-load or paginate candidate data.
+- GitHub Actions still depends on upstream action runtime versions outside this repository's code.

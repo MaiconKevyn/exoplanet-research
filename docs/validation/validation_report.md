@@ -24,6 +24,16 @@ The reproduction script ran:
 .venv/bin/python -m exoplanets_research.experiments.run_ablation --config configs/experiments/paper_v1.yml
 ```
 
+Architecture cleanup final gate:
+
+```bash
+git diff --check
+.venv/bin/python -m pytest -q
+UNCERTAINTY_RUNS=25 paper/reproduce.sh
+npm --prefix frontend run build
+git status --short
+```
+
 Frontend build:
 
 ```bash
@@ -39,7 +49,7 @@ rg -n "life[ ]found|alien[ ]life|proof[ ]of[ ]life|confirmed[ ]life|biosignature
 Data-size review:
 
 ```bash
-du -h data/*.csv data/processed/*.csv data/outputs/*.csv frontend/src/data/*.json paper/figures/* paper/tables/* 2>/dev/null | sort -h
+du -h data/*.csv data/processed/*.csv data/outputs/*.csv data/outputs/experiments/paper_v1/intermediate/*.csv frontend/src/data/*.json paper/figures/* paper/tables/* 2>/dev/null | sort -h
 ```
 
 ## Test Results
@@ -53,7 +63,7 @@ Command:
 Result:
 
 ```text
-32 passed in 4.45s
+34 passed in 4.71s
 ```
 
 Covered behavior:
@@ -74,6 +84,8 @@ Covered behavior:
 - External target host-star crossmatch hooks.
 - Paper experiment output generation for HZ comparison, two-baseline comparison, score sensitivity, and external target crossmatch summaries.
 - Paper table generation.
+- Paper figure generation.
+- Split pipeline smoke, uncertainty, and paper-export contracts.
 - Experiment manifest validation.
 
 ## Data Provenance Checks
@@ -233,6 +245,28 @@ No matches.
 - The ranking uses catalog-level fields and cannot infer atmospheric biosignatures.
 - Disequilibrium, oxygen context, atmospheric retrievals, surface spectra, stellar activity, and photochemical false positives remain future evidence classes.
 - Static JSON makes the current dashboard easy to reproduce but creates a large bundle; a future version should lazy-load candidate data.
+
+## Architecture Cleanup Validation
+
+The 2026-05-22 architecture cleanup preserved scientific semantics while improving code organization:
+
+- `run_ablation.py` is now a thin CLI facade; experiment logic is split across `manifest.py`, `candidates.py`, `comparisons.py`, `external_validation.py`, and `artifacts.py`.
+- Pipeline side-effect writers moved to `data/outputs.py` and `io/provenance.py`.
+- Paper Markdown table generation moved to `paper/tables.py`; `paper/figures.py` now owns plotting only.
+- Pipeline tests were split into archive, smoke, uncertainty, and paper-export coverage.
+- Legacy exploratory scripts moved to `scripts/legacy/`.
+- Full Monte Carlo sample rows moved out of Git tracking and into an ignored intermediate path.
+
+Final cleanup checks passed:
+
+```text
+git diff --check: passed
+.venv/bin/python -m pytest -q: 34 passed
+UNCERTAINTY_RUNS=25 paper/reproduce.sh: passed
+npm --prefix frontend run build: passed with the known large-bundle warning
+```
+
+No scoring formula, HZ formula, or ranking semantics were intentionally changed by the cleanup. The only scientific artifact contract change is storage policy: full Monte Carlo sample rows are now reproducible intermediates, while the tracked uncertainty summary remains the paper-facing artifact.
 
 ## Conclusion
 
