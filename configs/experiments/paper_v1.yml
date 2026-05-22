@@ -1,0 +1,17 @@
+id: paper_v1
+input: data/PS_2025.06.22_09.41.26.csv
+hz_models:
+  - simple_luminosity_baseline
+  - kopparapu_conservative_earth_mass
+  - kopparapu_optimistic_earth_mass
+score_profiles:
+  - configs/scoring/ectp_v1.yml
+uncertainty:
+  runs: 500
+  seed: 42
+top_k:
+  - 10
+  - 25
+  - 50
+outputs:
+  directory: data/outputs/experiments/paper_v1
