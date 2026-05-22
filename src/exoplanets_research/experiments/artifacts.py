@@ -7,8 +7,8 @@ from exoplanets_research.paper.figures import (
     plot_rank_uncertainty,
     plot_score_distribution,
     plot_subscore_heatmap,
-    write_top_candidate_table,
 )
+from exoplanets_research.paper.tables import write_top_candidate_table
 
 
 def unique_paths(paths: list[Path]) -> list[Path]:

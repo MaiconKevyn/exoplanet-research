@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from exoplanets_research.paper.figures import write_markdown_table
+from exoplanets_research.paper.tables import write_markdown_table
 from exoplanets_research.validation.external_targets import (
     HWO_EXEP_TABLE,
     add_host_target_flags,

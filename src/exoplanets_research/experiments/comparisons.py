@@ -9,7 +9,8 @@ from exoplanets_research.experiments.candidates import (
 )
 from exoplanets_research.habitability.scoring import score_candidates
 from exoplanets_research.habitability.scoring_config import ScoringConfig, load_scoring_config
-from exoplanets_research.paper.figures import plot_hz_model_overlap, write_markdown_table
+from exoplanets_research.paper.figures import plot_hz_model_overlap
+from exoplanets_research.paper.tables import write_markdown_table
 from exoplanets_research.validation.baselines import (
     followup_readiness_baseline,
     hz_radius_baseline,

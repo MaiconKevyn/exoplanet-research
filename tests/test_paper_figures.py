@@ -1,11 +1,9 @@
-from pathlib import Path
-
 import pandas as pd
 
-from exoplanets_research.paper.figures import write_top_candidate_table
+from exoplanets_research.paper.figures import plot_score_distribution
 
 
-def test_write_top_candidate_table(tmp_path):
+def test_plot_score_distribution(tmp_path):
     ranked = pd.DataFrame(
         {
             "pl_name": ["A b", "B b"],
@@ -14,10 +12,9 @@ def test_write_top_candidate_table(tmp_path):
             "evidence_confidence": ["moderate_catalog_confidence", "limited_catalog_confidence"],
         }
     )
-    output = tmp_path / "top_candidates.md"
+    output = tmp_path / "score_distribution.png"
 
-    write_top_candidate_table(ranked, output, top_n=2)
+    plot_score_distribution(ranked, output)
 
-    text = output.read_text(encoding="utf-8")
-    assert "A b" in text
-    assert "score_total" in text
+    assert output.exists()
+    assert output.stat().st_size > 0
