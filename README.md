@@ -23,6 +23,7 @@ The project is designed as a scientific software artifact: the focus is not only
 - [Usage](#usage)
 - [Evaluation and Research](#evaluation-and-research)
 - [Reproducibility and Provenance](#reproducibility-and-provenance)
+- [Paper Reproduction](#paper-reproduction)
 - [License](#license)
 
 ## What This Project Is
@@ -360,6 +361,14 @@ Generated artifacts include provenance sidecars that record input file, row coun
 
 The current implementation has scientific impact as a transparent evidence-accounting layer over the NASA Exoplanet Archive. It provides a reproducible bridge between modern astrobiology literature and practical target prioritization for future observation and modeling work.
 
+## Paper Reproduction
+
+The paper-grade experiment package can be regenerated with:
+
+```bash
+paper/reproduce.sh
+```
+
 ## License
 
-No license file is currently included in this repository.
+This repository is distributed under the MIT License. See [LICENSE](LICENSE).
