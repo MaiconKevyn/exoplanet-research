@@ -50,11 +50,11 @@ Every ranked row must include:
 
 ## HZ Model Provenance
 
-| Model | Method basis | Interpretation |
-| --- | --- | --- |
-| `simple_luminosity_baseline` | Luminosity-scaled inner/outer flux baseline retained for reproducibility against the original project artifact. | Baseline comparison model, not a full climate model. |
-| `kopparapu_conservative_earth_mass` | Kopparapu et al. 2014 1 Earth-mass runaway-greenhouse and maximum-greenhouse limits. | Conservative liquid-water HZ sensitivity model. |
-| `kopparapu_optimistic_earth_mass` | Kopparapu et al. 2014 1 Earth-mass recent-Venus and early-Mars empirical limits. | Optimistic HZ sensitivity model. |
+| Model | Method basis | Citation key | Interpretation |
+| --- | --- | --- | --- |
+| `simple_luminosity_baseline` | Luminosity-scaled inner/outer flux baseline retained for reproducibility against the original project artifact and used as the control model. | `BaselineInventory2026` | Baseline comparison model, not a full climate model. |
+| `kopparapu_conservative_earth_mass` | Kopparapu et al. 2014 1 Earth-mass runaway-greenhouse and maximum-greenhouse limits. | `Kopparapu2014` | Conservative liquid-water HZ sensitivity model. |
+| `kopparapu_optimistic_earth_mass` | Kopparapu et al. 2014 1 Earth-mass recent-Venus and early-Mars empirical limits. | `Kopparapu2014` | Optimistic HZ sensitivity model. |
 
 ## Uncertainty Sampling Rules
 

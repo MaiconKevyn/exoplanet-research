@@ -371,6 +371,7 @@ Interpret these as follow-up priorities, not detections.
 - [Astrobiology literature review](docs/research/astrobiology_literature_review.md)
 - [Baseline inventory](docs/validation/baseline_inventory.md)
 - [Validation report](docs/validation/validation_report.md)
+- [Paper readiness audit](docs/validation/paper_readiness_audit.md)
 - [Implementation plan](docs/superpowers/plans/2026-05-20-astrobiology-research-platform.md)
 
 ### Scientific Limitations
