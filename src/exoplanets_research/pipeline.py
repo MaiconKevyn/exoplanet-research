@@ -1,58 +1,24 @@
 import argparse
-import json
-from datetime import UTC, datetime
 from pathlib import Path
-
-import pandas as pd
 
 from exoplanets_research.config import DATA_DIR, FRONTEND_DATA_DIR
 from exoplanets_research.data.archive import load_planetary_systems_csv
 from exoplanets_research.data.cleaning import select_best_planet_records
+from exoplanets_research.data.outputs import attach_uncertainty_summary, write_frontend_json
+from exoplanets_research.experiments.artifacts import write_paper_artifacts
+from exoplanets_research.experiments.manifest import load_experiment_manifest
 from exoplanets_research.habitability.features import add_habitability_features
 from exoplanets_research.habitability.habitable_zone import HZ_MODEL, add_habitable_zone_columns
 from exoplanets_research.habitability.scoring import score_candidates
 from exoplanets_research.habitability.scoring_config import DEFAULT_SCORING_CONFIG_PATH, load_scoring_config
+from exoplanets_research.io.provenance import write_provenance
 from exoplanets_research.literature.catalog import load_sources
 from exoplanets_research.uncertainty.monte_carlo import generate_uncertainty_samples, summarize_rank_uncertainty
 
 
 DEFAULT_INPUT = DATA_DIR / "PS_2025.06.22_09.41.26.csv"
 DEFAULT_EXPERIMENT_CONFIG = Path("configs/experiments/paper_v1.yml")
-UNCERTAINTY_SUMMARY_COLUMNS = ["score_mean", "score_std", "rank_median", "rank_p05", "rank_p95", "top10_probability"]
-
-
-def _write_provenance(path: Path, *, input_file: Path, row_count: int, stage: str) -> None:
-    payload = {
-        "source": "NASA Exoplanet Archive",
-        "input_file": str(input_file),
-        "row_count": row_count,
-        "stage": stage,
-        "generated_by": "src/exoplanets_research/pipeline.py",
-        "generated_at_utc": datetime.now(UTC).isoformat(),
-    }
-    path.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
-
-
-def _write_frontend_json(csv_path: Path, frontend_root: Path) -> Path:
-    frontend_root.mkdir(parents=True, exist_ok=True)
-    output_path = frontend_root / "astrobiology_ranked_candidates.json"
-    df = pd.read_csv(csv_path, low_memory=False)
-    df.to_json(output_path, orient="records", indent=2)
-    return output_path
-
-
-def _attach_uncertainty_summary(ranked: pd.DataFrame, summary: pd.DataFrame | None = None) -> pd.DataFrame:
-    result = ranked.copy()
-    for column in UNCERTAINTY_SUMMARY_COLUMNS:
-        if column not in result.columns:
-            result[column] = pd.NA
-    if summary is None or summary.empty:
-        return result
-    return result.drop(columns=UNCERTAINTY_SUMMARY_COLUMNS, errors="ignore").merge(
-        summary[["pl_name", *UNCERTAINTY_SUMMARY_COLUMNS]],
-        on="pl_name",
-        how="left",
-    )
+PIPELINE_GENERATOR = "src/exoplanets_research/pipeline.py"
 
 
 def run_pipeline(
@@ -87,7 +53,13 @@ def run_pipeline(
     canonical_path = processed_dir / "canonical_exoplanets.csv"
     canonical.to_csv(canonical_path, index=False)
     canonical_provenance = processed_dir / "canonical_exoplanets.provenance.json"
-    _write_provenance(canonical_provenance, input_file=input_path, row_count=len(canonical), stage="canonical")
+    write_provenance(
+        canonical_provenance,
+        input_file=input_path,
+        row_count=len(canonical),
+        stage="canonical",
+        generated_by=PIPELINE_GENERATOR,
+    )
     outputs["canonical"] = canonical_path
     outputs["canonical_provenance"] = canonical_provenance
 
@@ -121,20 +93,24 @@ def run_pipeline(
         outputs["uncertainty_samples"] = uncertainty_samples_path
         outputs["rank_uncertainty"] = uncertainty_summary_path
 
-    ranked = _attach_uncertainty_summary(ranked, uncertainty_summary)
+    ranked = attach_uncertainty_summary(ranked, uncertainty_summary)
     ranked_path = outputs_dir / "astrobiology_ranked_candidates.csv"
     ranked.to_csv(ranked_path, index=False)
     ranked_provenance = outputs_dir / "astrobiology_ranked_candidates.provenance.json"
-    _write_provenance(ranked_provenance, input_file=input_path, row_count=len(ranked), stage="score")
+    write_provenance(
+        ranked_provenance,
+        input_file=input_path,
+        row_count=len(ranked),
+        stage="score",
+        generated_by=PIPELINE_GENERATOR,
+    )
     outputs["ranked"] = ranked_path
     outputs["ranked_provenance"] = ranked_provenance
 
     if stage in {"score", "all", "export-frontend"}:
-        outputs["frontend_json"] = _write_frontend_json(ranked_path, frontend_root)
+        outputs["frontend_json"] = write_frontend_json(ranked_path, frontend_root)
 
     if paper_artifacts and stage in {"score", "all", "export-frontend"}:
-        from exoplanets_research.experiments.run_ablation import load_experiment_manifest, write_paper_artifacts
-
         manifest = load_experiment_manifest(Path(experiment_config))
         for index, artifact in enumerate(write_paper_artifacts(manifest)):
             outputs[f"paper_artifact_{index}"] = artifact
