@@ -1,0 +1,5 @@
+paper_artifacts:
+- paper/tables/top_candidates.md
+- paper/figures/score_distribution.png
+- paper/figures/subscore_heatmap_top25.png
+- paper/figures/rank_uncertainty_top25.png
