@@ -36,7 +36,7 @@ Python evidence pipeline
 
 | Container | Responsibility |
 | --- | --- |
-| Python package `exoplanets_research` | Ingest archive data, de-duplicate planet records, engineer features, compute scores, export artifacts. |
+| Python package `exoplanets_research` | Ingest archive data, de-duplicate planet records, engineer features, compute scores, quantify uncertainty, validate outputs, and export artifacts. |
 | Literature registry | Store papers, strategies, platforms, and architecture implications in machine-readable YAML. |
 | Data artifacts | Persist canonical data, HZ calculations, ranked candidates, and provenance sidecars. |
 | Validation suite | Prove schema validity, HZ parity, known-candidate visibility, scoring policy, and pipeline outputs. |
@@ -48,10 +48,15 @@ Python evidence pipeline
 | --- | --- | --- |
 | Archive ingestion | `src/exoplanets_research/data/archive.py` | `load_planetary_systems_csv`, `build_pscomppars_tap_query` |
 | Record cleaning | `src/exoplanets_research/data/cleaning.py` | `select_best_planet_records` |
+| Artifact writers | `src/exoplanets_research/data/outputs.py`, `src/exoplanets_research/io/provenance.py` | `write_frontend_json`, `attach_uncertainty_summary`, `write_provenance` |
 | Literature catalog | `src/exoplanets_research/literature/catalog.py` | `load_sources`, `group_sources_by_category` |
-| HZ model | `src/exoplanets_research/habitability/habitable_zone.py` | `simple_habitable_zone_from_log_luminosity`, `add_habitable_zone_columns` |
+| HZ models | `src/exoplanets_research/habitability/hz_models.py`, `src/exoplanets_research/habitability/habitable_zone.py` | `compute_hz_bounds`, `add_habitable_zone_columns` |
 | Feature engineering | `src/exoplanets_research/habitability/features.py` | `add_habitability_features` |
 | Evidence scoring | `src/exoplanets_research/habitability/scoring.py` | `score_candidates` |
+| Uncertainty modeling | `src/exoplanets_research/uncertainty/monte_carlo.py` | `generate_uncertainty_samples`, `summarize_rank_uncertainty` |
+| Experiment comparisons | `src/exoplanets_research/experiments/comparisons.py` | `run_hz_model_comparison`, `run_baseline_comparison`, `run_score_sensitivity` |
+| Experiment artifacts | `src/exoplanets_research/experiments/artifacts.py`, `src/exoplanets_research/experiments/external_validation.py` | `write_paper_artifacts`, `run_external_validation`, `write_external_inventory` |
+| Paper tables and figures | `src/exoplanets_research/paper/tables.py`, `src/exoplanets_research/paper/figures.py` | `write_top_candidate_table`, plot functions |
 | Pipeline orchestration | `src/exoplanets_research/pipeline.py` | `run_pipeline`, CLI stages |
 | Dashboard table | `frontend/src/components/HabitablePlanetsTable.jsx` | Ranked candidate rows |
 | Evidence panel | `frontend/src/components/EvidenceBreakdown.jsx` | Top-candidate score decomposition |
@@ -64,8 +69,10 @@ Python evidence pipeline
 3. `add_habitable_zone_columns` computes `hz_inner`, `hz_outer`, `hz_model`, and `habitable_zone_status`.
 4. `add_habitability_features` adds radius class, stellar temperature class, HZ center offset, missing fields, data-quality features, and follow-up readiness.
 5. `score_candidates` creates sub-scores, total score, confidence label, and a conservative caveat.
-6. `run_pipeline` writes CSV outputs, provenance JSON, and frontend JSON.
-7. The React dashboard reads the generated JSON and displays the evidence breakdown.
+6. `generate_uncertainty_samples` and `summarize_rank_uncertainty` add score/rank stability summaries when requested.
+7. `run_pipeline` orchestrates CSV outputs, provenance JSON, frontend JSON, and optional paper artifacts through dedicated writer modules.
+8. The experiment runner generates paper-grade comparisons for HZ models, baseline rankers, score sensitivity, and external mission target overlap.
+9. The React dashboard reads the generated JSON and displays the evidence breakdown.
 
 ## Paper and Platform Mapping
 
@@ -103,6 +110,8 @@ The validation suite proves:
 - Scoring field bounds and conservative caveat.
 - Known candidate survival after de-duplication.
 - Pipeline output and provenance generation.
+- Paper experiment summaries and artifact generation.
+- Frontend build compatibility with generated JSON.
 
 The final quality gate adds:
 

@@ -14,6 +14,7 @@ The project is designed as a scientific software artifact: the focus is not only
 ## Contents
 
 - [What This Project Is](#what-this-project-is)
+- [Reader Guide](#reader-guide)
 - [Architecture](#architecture)
 - [Scientific Workflow](#scientific-workflow)
 - [Scientific Design](#scientific-design)
@@ -24,6 +25,7 @@ The project is designed as a scientific software artifact: the focus is not only
 - [Evaluation and Research](#evaluation-and-research)
 - [Reproducibility and Provenance](#reproducibility-and-provenance)
 - [Paper Reproduction](#paper-reproduction)
+- [Development](#development)
 - [License](#license)
 
 ## What This Project Is
@@ -48,6 +50,15 @@ Supported interfaces and artifacts:
 - Provenance sidecars for generated outputs.
 - React/Vite dashboard for ranked candidates and evidence breakdowns.
 - Architecture, literature, and validation reports under `docs/`.
+
+## Reader Guide
+
+| Reader | Start here | Why |
+|---|---|---|
+| Scientist or reviewer | [Scientific Method Contract](docs/research/scientific_method_contract.md) and [Paper Readiness Audit](docs/validation/paper_readiness_audit.md) | Defines the claim, non-claims, evidence fields, and paper-readiness evidence. |
+| Developer | [Development Guide](docs/development.md) and [Codebase Modularity Review](docs/architecture/codebase_modularity_review.md) | Explains commands, module ownership, tests, and artifact rules. |
+| Reproducer | [Paper Reproduction](#paper-reproduction) and [`paper/reproduce.sh`](paper/reproduce.sh) | Provides the one-command paper artifact path. |
+| Dashboard reader | [Quick Start](#quick-start) and [`frontend/src/data/astrobiology_ranked_candidates.json`](frontend/src/data/astrobiology_ranked_candidates.json) | Shows how to build or inspect the static frontend data contract. |
 
 ## Architecture
 
@@ -167,20 +178,28 @@ Version constraints are defined in [`pyproject.toml`](pyproject.toml) and [`fron
 exoplanets_research/
 ├── src/
 │   └── exoplanets_research/
-│   │   ├── data/
-│   │   │   ├── archive.py              # NASA archive CSV/TAP helpers
-│   │   │   └── cleaning.py             # Canonical record selection
-│   │   ├── habitability/
-│   │   │   ├── habitable_zone.py       # Baseline HZ calculation
-│   │   │   ├── features.py             # Candidate feature engineering
-│   │   │   └── scoring.py              # Evidence-weighted ranking
-│   │   ├── literature/
-│   │   │   ├── catalog.py              # Literature registry loader
-│   │   │   └── schema.py               # Source metadata schema checks
-│   │   ├── validation/
-│   │   │   └── gold_standards.py       # Known-candidate checks
-│   │   ├── config.py                   # Stable project paths
-│   │   └── pipeline.py                 # CLI and orchestration
+│       ├── data/
+│       │   ├── archive.py              # NASA archive CSV/TAP helpers
+│       │   └── cleaning.py             # Canonical record selection
+│       ├── experiments/                # Paper experiment orchestration
+│       ├── habitability/
+│       │   ├── habitable_zone.py       # Baseline HZ calculation
+│       │   ├── hz_models.py            # Selectable HZ model families
+│       │   ├── features.py             # Candidate feature engineering
+│       │   ├── scoring.py              # Evidence-weighted ranking
+│       │   └── scoring_config.py       # Versioned scoring profiles
+│       ├── io/                         # Provenance helpers
+│       ├── literature/
+│       │   ├── catalog.py              # Literature registry loader
+│       │   └── schema.py               # Source metadata schema checks
+│       ├── paper/                      # Paper tables and figures
+│       ├── uncertainty/                # Monte Carlo uncertainty modeling
+│       ├── validation/
+│       │   ├── baselines.py            # Baseline rankers and metrics
+│       │   ├── external_targets.py     # Mission target crossmatch
+│       │   └── gold_standards.py       # Known-candidate checks
+│       ├── config.py                   # Stable project paths
+│       └── pipeline.py                 # CLI and orchestration
 ├── scripts/
 │   └── legacy/                         # Historical exploratory scripts
 ├── data/
@@ -366,6 +385,8 @@ Interpret these as follow-up priorities, not detections.
 
 - [Scientific platform architecture](docs/architecture/scientific_platform_architecture.md)
 - [Codebase modularity review](docs/architecture/codebase_modularity_review.md)
+- [Generated artifact policy](docs/architecture/artifact_policy.md)
+- [Development guide](docs/development.md)
 - [Astrobiology literature review](docs/research/astrobiology_literature_review.md)
 - [Baseline inventory](docs/validation/baseline_inventory.md)
 - [Validation report](docs/validation/validation_report.md)
@@ -399,6 +420,10 @@ By default this runs the 500-sample uncertainty target from `paper_v1`. For a fa
 ```bash
 UNCERTAINTY_RUNS=25 paper/reproduce.sh
 ```
+
+## Development
+
+Engineering workflow, test ownership, module boundaries, artifact policy, and commit conventions are documented in [Development Guide](docs/development.md).
 
 ## License
 

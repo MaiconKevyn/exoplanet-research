@@ -80,7 +80,7 @@ These artifacts are part of the scientific record and can be reviewed in Git:
 - `paper/figures/*.png`
 - `frontend/src/data/astrobiology_ranked_candidates.json`
 
-Sample-level Monte Carlo artifacts are reproducible intermediates. They should be governed by `docs/architecture/artifact_policy.md` once that policy is implemented.
+Sample-level Monte Carlo artifacts are reproducible intermediates governed by `docs/architecture/artifact_policy.md`.
 
 ## Current Maintenance Risks
 
