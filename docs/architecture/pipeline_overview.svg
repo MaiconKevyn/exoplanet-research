@@ -1,0 +1,197 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="1000" viewBox="0 0 1400 1000" role="img" aria-labelledby="title desc">
+  <title id="title">Exoplanet Research Platform scientific pipeline overview</title>
+  <desc id="desc">Scientific infographic showing the current exoplanet research pipeline from NASA Exoplanet Archive data and astrobiology literature through canonical record selection, habitable-zone baseline calculation, feature engineering, evidence scoring, artifact export, dashboard rendering, and validation guardrails.</desc>
+  <defs>
+    <linearGradient id="page-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f7fbff"/>
+      <stop offset="52%" stop-color="#f8fafc"/>
+      <stop offset="100%" stop-color="#eef7f4"/>
+    </linearGradient>
+    <linearGradient id="title-band" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#12365b"/>
+      <stop offset="58%" stop-color="#175e78"/>
+      <stop offset="100%" stop-color="#2f725b"/>
+    </linearGradient>
+    <filter id="soft-shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#0f172a" flood-opacity="0.12"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="10" markerHeight="10" orient="auto-start-reverse">
+      <path d="M 1 1 L 11 6 L 1 11 z" fill="#1f5f74"/>
+    </marker>
+    <marker id="arrow-muted" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M 1 1 L 11 6 L 1 11 z" fill="#64748b"/>
+    </marker>
+    <style>
+      .bg { fill: url(#page-bg); }
+      .title-band { fill: url(#title-band); }
+      .title { font: 700 34px Arial, Helvetica, sans-serif; fill: #ffffff; letter-spacing: 0; }
+      .subtitle { font: 400 18px Arial, Helvetica, sans-serif; fill: #dff7ff; letter-spacing: 0; }
+      .panel { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1.5; rx: 18; filter: url(#soft-shadow); }
+      .panel-title { font: 700 20px Arial, Helvetica, sans-serif; fill: #0f2f4c; letter-spacing: 0; }
+      .panel-note { font: 400 13px Arial, Helvetica, sans-serif; fill: #64748b; letter-spacing: 0; }
+      .box-input { fill: #eff8ff; stroke: #8ecae6; stroke-width: 1.5; rx: 12; }
+      .box-output { fill: #f3faf6; stroke: #7cc59a; stroke-width: 1.5; rx: 12; }
+      .stage { fill: #ffffff; stroke: #7ba6b8; stroke-width: 1.7; rx: 14; filter: url(#soft-shadow); }
+      .stage-num { font: 700 13px Arial, Helvetica, sans-serif; fill: #ffffff; letter-spacing: 0; }
+      .stage-title { font: 700 17px Arial, Helvetica, sans-serif; fill: #0f2f4c; letter-spacing: 0; }
+      .stage-text { font: 400 13px Arial, Helvetica, sans-serif; fill: #475569; letter-spacing: 0; }
+      .stage-file { font: 700 12px Arial, Helvetica, sans-serif; fill: #0f766e; letter-spacing: 0; }
+      .label { font: 700 15px Arial, Helvetica, sans-serif; fill: #0f2f4c; letter-spacing: 0; }
+      .small { font: 400 12px Arial, Helvetica, sans-serif; fill: #526174; letter-spacing: 0; }
+      .chip { fill: #f8fafc; stroke: #cbd5e1; stroke-width: 1.2; rx: 10; }
+      .chip-text { font: 700 13px Arial, Helvetica, sans-serif; fill: #334155; letter-spacing: 0; }
+      .arrow { fill: none; stroke: #1f5f74; stroke-width: 3; marker-end: url(#arrow); }
+      .arrow-muted { fill: none; stroke: #64748b; stroke-width: 2.4; stroke-dasharray: 7 7; marker-end: url(#arrow-muted); }
+      .halo { fill: none; stroke: #d9edf3; stroke-width: 2; stroke-dasharray: 4 6; }
+      .warning { fill: #fff7ed; stroke: #f2a65a; stroke-width: 1.4; rx: 12; }
+      .warning-text { font: 700 13px Arial, Helvetica, sans-serif; fill: #7c3f00; letter-spacing: 0; }
+    </style>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1400" height="1000"/>
+
+  <g aria-label="Header">
+    <rect class="title-band" x="48" y="36" width="1304" height="118" rx="24"/>
+    <circle cx="1210" cy="95" r="34" fill="none" stroke="#9ee7d1" stroke-width="2"/>
+    <circle cx="1210" cy="95" r="7" fill="#9ee7d1"/>
+    <ellipse cx="1210" cy="95" rx="62" ry="18" fill="none" stroke="#9ee7d1" stroke-width="1.5" transform="rotate(-18 1210 95)"/>
+    <text class="title" x="82" y="86">Exoplanet Research Platform</text>
+    <text class="subtitle" x="82" y="120">Literature-grounded evidence pipeline for astrobiology target prioritization</text>
+  </g>
+
+  <g aria-label="Knowledge inputs">
+    <rect class="panel" x="58" y="198" width="330" height="374"/>
+    <text class="panel-title" x="84" y="236">Knowledge Inputs</text>
+    <text class="panel-note" x="84" y="260">External data and scientific context</text>
+
+    <rect class="box-input" x="84" y="292" width="278" height="94"/>
+    <text class="label" x="108" y="322">NASA archive snapshot</text>
+    <text class="small" x="108" y="346">PSCompPars CSV or TAP query</text>
+    <text class="small" x="108" y="368">Catalog fields for confirmed planets</text>
+
+    <rect class="box-input" x="84" y="420" width="278" height="104"/>
+    <text class="label" x="108" y="450">Astrobiology literature</text>
+    <text class="small" x="108" y="474">30 papers and platform sources</text>
+    <text class="small" x="108" y="496">Evidence rules, caveats, provenance</text>
+  </g>
+
+  <g aria-label="Pipeline stages">
+    <text class="panel-title" x="508" y="190">Current Python Pipeline</text>
+    <text class="panel-note" x="508" y="214">Implemented in src/exoplanets_research/pipeline.py</text>
+
+    <rect class="stage" x="470" y="238" width="460" height="78"/>
+    <circle cx="508" cy="277" r="19" fill="#1f5f74"/>
+    <text class="stage-num" x="500" y="282">01</text>
+    <text class="stage-title" x="548" y="266">Ingest archive snapshot</text>
+    <text class="stage-text" x="548" y="288">Metadata-aware NASA CSV loading</text>
+    <text class="stage-file" x="548" y="307">data/archive.py</text>
+
+    <line class="arrow" x1="700" y1="316" x2="700" y2="346"/>
+
+    <rect class="stage" x="470" y="348" width="460" height="78"/>
+    <circle cx="508" cy="387" r="19" fill="#1f5f74"/>
+    <text class="stage-num" x="500" y="392">02</text>
+    <text class="stage-title" x="548" y="376">Select canonical records</text>
+    <text class="stage-text" x="548" y="398">One selected row per planet name</text>
+    <text class="stage-file" x="548" y="417">data/cleaning.py</text>
+
+    <line class="arrow" x1="700" y1="426" x2="700" y2="456"/>
+
+    <rect class="stage" x="470" y="458" width="460" height="78"/>
+    <circle cx="508" cy="497" r="19" fill="#1f5f74"/>
+    <text class="stage-num" x="500" y="502">03</text>
+    <text class="stage-title" x="548" y="486">Calculate HZ baseline</text>
+    <text class="stage-text" x="548" y="508">Inner and outer bounds plus status</text>
+    <text class="stage-file" x="548" y="527">habitability/habitable_zone.py</text>
+
+    <line class="arrow" x1="700" y1="536" x2="700" y2="566"/>
+
+    <rect class="stage" x="470" y="568" width="460" height="78"/>
+    <circle cx="508" cy="607" r="19" fill="#1f5f74"/>
+    <text class="stage-num" x="500" y="612">04</text>
+    <text class="stage-title" x="548" y="596">Engineer evidence features</text>
+    <text class="stage-text" x="548" y="618">Size, stellar context, data quality</text>
+    <text class="stage-file" x="548" y="637">habitability/features.py</text>
+
+    <line class="arrow" x1="700" y1="646" x2="700" y2="676"/>
+
+    <rect class="stage" x="470" y="678" width="460" height="78"/>
+    <circle cx="508" cy="717" r="19" fill="#1f5f74"/>
+    <text class="stage-num" x="500" y="722">05</text>
+    <text class="stage-title" x="548" y="706">Score candidates</text>
+    <text class="stage-text" x="548" y="728">Bounded sub-scores and penalties</text>
+    <text class="stage-file" x="548" y="747">habitability/scoring.py</text>
+
+    <line class="arrow" x1="700" y1="756" x2="700" y2="786"/>
+
+    <rect class="stage" x="470" y="788" width="460" height="78"/>
+    <circle cx="508" cy="827" r="19" fill="#1f5f74"/>
+    <text class="stage-num" x="500" y="832">06</text>
+    <text class="stage-title" x="548" y="816">Export research artifacts</text>
+    <text class="stage-text" x="548" y="838">CSV, JSON, provenance sidecars</text>
+    <text class="stage-file" x="548" y="857">pipeline.py</text>
+  </g>
+
+  <g aria-label="Data input arrows">
+    <path class="arrow" d="M 362 340 C 404 340, 420 277, 468 277"/>
+    <path class="arrow-muted" d="M 362 472 C 418 472, 420 607, 468 607"/>
+    <text class="small" x="374" y="326">catalog data</text>
+    <text class="small" x="372" y="494">scientific guardrails</text>
+  </g>
+
+  <g aria-label="Outputs">
+    <rect class="panel" x="1012" y="198" width="330" height="462"/>
+    <text class="panel-title" x="1038" y="236">Research Outputs</text>
+    <text class="panel-note" x="1038" y="260">Artifacts consumed by reports and UI</text>
+
+    <rect class="box-output" x="1038" y="292" width="278" height="74"/>
+    <text class="label" x="1062" y="322">Ranked candidates</text>
+    <text class="small" x="1062" y="346">data/outputs/*.csv</text>
+
+    <rect class="box-output" x="1038" y="388" width="278" height="74"/>
+    <text class="label" x="1062" y="418">Frontend JSON</text>
+    <text class="small" x="1062" y="442">frontend/src/data/*.json</text>
+
+    <rect class="box-output" x="1038" y="484" width="278" height="74"/>
+    <text class="label" x="1062" y="514">React dashboard</text>
+    <text class="small" x="1062" y="538">Evidence panels and caveats</text>
+
+    <rect class="box-output" x="1038" y="580" width="278" height="52"/>
+    <text class="label" x="1062" y="612">Validation reports</text>
+  </g>
+
+  <g aria-label="Output arrows">
+    <path class="arrow" d="M 930 827 C 990 827, 958 260, 1010 260"/>
+    <text class="small" x="944" y="842">exported artifacts</text>
+  </g>
+
+  <g aria-label="Scientific guardrails">
+    <rect class="panel" x="58" y="884" width="1284" height="76"/>
+    <text class="panel-title" x="84" y="927">Scientific guardrails</text>
+
+    <rect class="chip" x="300" y="907" width="184" height="30"/>
+    <text class="chip-text" x="318" y="927">Traceability</text>
+
+    <rect class="chip" x="502" y="907" width="222" height="30"/>
+    <text class="chip-text" x="520" y="927">No biosignature claims</text>
+
+    <rect class="chip" x="742" y="907" width="210" height="30"/>
+    <text class="chip-text" x="760" y="927">Sub-score visibility</text>
+
+    <rect class="chip" x="970" y="907" width="154" height="30"/>
+    <text class="chip-text" x="988" y="927">Known checks</text>
+
+    <rect class="chip" x="1142" y="907" width="162" height="30"/>
+    <text class="chip-text" x="1160" y="927">Quality gates</text>
+  </g>
+
+  <g aria-label="Interpretation constraint">
+    <rect class="warning" x="1012" y="688" width="330" height="122"/>
+    <text class="warning-text" x="1038" y="723">Interpretation boundary</text>
+    <text class="small" x="1038" y="751">The platform prioritizes follow-up</text>
+    <text class="small" x="1038" y="773">observation and modeling targets.</text>
+    <text class="small" x="1038" y="795">It does not infer life from catalog data.</text>
+  </g>
+
+  <path class="halo" d="M 442 218 H 958 V 882 H 442 Z"/>
+</svg>

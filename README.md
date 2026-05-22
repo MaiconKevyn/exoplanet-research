@@ -52,23 +52,7 @@ Supported interfaces and artifacts:
 
 The platform is organized as a reproducible evidence pipeline with a lightweight research dashboard:
 
-```text
-NASA Exoplanet Archive CSV snapshot
-          +
-Astrobiology papers and platform registry
-          |
-          v
-Python evidence pipeline
-          |
-          +--> Canonical exoplanet table
-          +--> Habitable-zone baseline table
-          +--> Ranked astrobiology candidates
-          +--> Provenance JSON sidecars
-          +--> Frontend JSON export
-          |
-          v
-React dashboard with evidence breakdowns
-```
+![Scientific pipeline overview](docs/architecture/pipeline_overview.svg)
 
 The architecture is composed of:
 
