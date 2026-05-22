@@ -229,7 +229,7 @@ The publishable method target is defined in [Scientific Method Contract](docs/re
 Run:
 
 ```bash
-rg -n "biosignature detected|confirmed life|proof of life|alien life|life found" README.md docs
+rg -n "biosignature[ ]detected|confirmed[ ]life|proof[ ]of[ ]life|alien[ ]life|life[ ]found" README.md docs
 ```
 
 Expected result: no matches.
@@ -1132,7 +1132,7 @@ jobs:
         run: python -m pytest -q
       - name: Conservative language check
         run: |
-          ! grep -R -n -E "life found|alien life|proof of life|confirmed life|biosignature detected" docs frontend/src src
+          ! grep -R -n -E "life[ ]found|alien[ ]life|proof[ ]of[ ]life|confirmed[ ]life|biosignature[ ]detected" docs frontend/src src
       - name: Frontend install
         run: npm --prefix frontend ci
       - name: Frontend build

@@ -98,6 +98,8 @@ The pipeline entry point is [`src/exoplanets_research/pipeline.py`](src/exoplane
 
 ## Scientific Design
 
+The publishable method target is defined in [Scientific Method Contract](docs/research/scientific_method_contract.md).
+
 ### Literature-Grounded Evidence
 
 The registry in [`data/literature/astrobiology_sources.yml`](data/literature/astrobiology_sources.yml) currently tracks 30 sources across classical exobiology, modern biosignature assessment, life-detection frameworks, and astrobiology data/platform patterns.
