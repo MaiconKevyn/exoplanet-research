@@ -1,3 +1,3 @@
-| target_list   | source_table  | target_hosts | ranked_candidates | matched_candidates | matched_top_25 | matched_top_50 |
-| ------------- | ------------- | ------------ | ----------------- | ------------------ | -------------- | -------------- |
-| hwo_exep_2023 | DI_STARS_EXEP | 164          | 4236              | 16                 | 0              | 1              |
+| target_list   | source_table  | source_url                                                         | download_date | sha256                                                           | target_hosts | ranked_candidates | matched_candidates | matched_top_25 | matched_top_50 |
+| ------------- | ------------- | ------------------------------------------------------------------ | ------------- | ---------------------------------------------------------------- | ------------ | ----------------- | ------------------ | -------------- | -------------- |
+| hwo_exep_2023 | DI_STARS_EXEP | https://exoplanetarchive.ipac.caltech.edu/docs/MissionStellar.html | 2026-05-22    | eb3228435eed444d566e65c560c5a9bed80477b51bf1a4da0da615e1049633b3 | 164          | 4236              | 16                 | 0              | 1              |

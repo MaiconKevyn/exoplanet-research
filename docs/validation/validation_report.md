@@ -90,7 +90,7 @@ Generated outputs:
 | `data/outputs/experiments/paper_v1/hz_model_comparison.csv` | 3 | 6 | Model-level top-k overlap and HZ candidate counts. |
 | `data/outputs/experiments/paper_v1/baseline_comparison.csv` | 2 | 7 | ECTP versus HZ-radius and follow-up-readiness baselines. |
 | `data/outputs/experiments/paper_v1/score_sensitivity.csv` | 4 | 7 | ECTP score-weight sensitivity profiles with top-k overlap and rank correlation. |
-| `data/outputs/experiments/paper_v1/external_validation_summary.csv` | 1 | 7 | HWO ExEP host crossmatch summary. |
+| `data/outputs/experiments/paper_v1/external_validation_summary.csv` | 1 | 10 | HWO ExEP host crossmatch summary with source URL, download date, and checksum. |
 | `data/outputs/experiments/paper_v1/external_validation.csv` | 4,236 | 7 | Ranked candidates annotated with external target flags. |
 | `frontend/src/data/astrobiology_ranked_candidates.json` | 4,236 | n/a | Dashboard export. |
 
@@ -155,9 +155,9 @@ The experiment runner now compares the default profile against three normalized 
 
 The experiment runner downloads the NASA Exoplanet Archive HWO ExEP Precursor Science Stars TAP table `DI_STARS_EXEP` when the local file is absent, records source URL/download date/checksum in the external data inventory, then performs a conservative host-name crossmatch against the ranked candidate table. HPIC is documented in the external inventory as the next large-catalog ingestion target, but it is not included in the default automated run until a stable tabular ingestion contract is added.
 
-| Target list | Source table | Target hosts | Ranked candidates | Matched candidates | Matched top 25 | Matched top 50 |
-| --- | --- | ---: | ---: | ---: | ---: | ---: |
-| `hwo_exep_2023` | `DI_STARS_EXEP` | 164 | 4,236 | 16 | 0 | 1 |
+| Target list | Source table | Download date | SHA-256 | Target hosts | Ranked candidates | Matched candidates | Matched top 25 | Matched top 50 |
+| --- | --- | --- | --- | ---: | ---: | ---: | ---: | ---: |
+| `hwo_exep_2023` | `DI_STARS_EXEP` | 2026-05-22 | `eb3228435eed444d566e65c560c5a9bed80477b51bf1a4da0da615e1049633b3` | 164 | 4,236 | 16 | 0 | 1 |
 
 ## Paper Artifacts
 

@@ -252,11 +252,17 @@ def run_external_validation(manifest: dict, output_dir: Path) -> tuple[pd.DataFr
     annotated = add_host_target_flags(ranked, targets)
     matched = annotated[annotated["external_target_match"] == True].copy()  # noqa: E712
     matched.insert(0, "ectp_rank", matched.index + 1)
+    source_url = external_config.get("source_url", "https://exoplanetarchive.ipac.caltech.edu/docs/MissionStellar.html")
+    download_date = datetime.now(UTC).date().isoformat()
+    checksum = sha256_file(target_path)
     summary = pd.DataFrame(
         [
             {
                 "target_list": external_config.get("target_list", "hwo_exep_2023"),
                 "source_table": external_config.get("table_name", HWO_EXEP_TABLE),
+                "source_url": source_url,
+                "download_date": download_date,
+                "sha256": checksum,
                 "target_hosts": int(targets["hostname"].nunique()),
                 "ranked_candidates": int(len(ranked)),
                 "matched_candidates": int(len(matched)),
