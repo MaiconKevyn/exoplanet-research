@@ -38,7 +38,7 @@ This matches the implementation plan's safety gate: `.gitignore` must exist befo
 
 ## Known Gaps
 
-- `src/02_preprocessing.py` expects `data/processed_exoplanet_data.parquet`, but no such file exists in the current tree.
+- `scripts/legacy/02_preprocessing.py` expects `data/processed_exoplanet_data.parquet`, but no such file exists in the current tree.
 - The script that originally generated `data/habitable_zone_candidates.csv` and `data/habitable_zone_calculated.csv` is missing.
 - `data/habitable_zone_candidates.csv` has duplicate `pl_name` rows. Current duplicate count by `pl_name` is 295 rows, with several planets appearing four times.
 - Existing ranking is a single heuristic score and does not expose provenance, sub-scores, uncertainty, or false-positive caveats.

@@ -166,7 +166,7 @@ Version constraints are defined in [`pyproject.toml`](pyproject.toml) and [`fron
 ```bash
 exoplanets_research/
 ├── src/
-│   ├── exoplanets_research/
+│   └── exoplanets_research/
 │   │   ├── data/
 │   │   │   ├── archive.py              # NASA archive CSV/TAP helpers
 │   │   │   └── cleaning.py             # Canonical record selection
@@ -181,12 +181,8 @@ exoplanets_research/
 │   │   │   └── gold_standards.py       # Known-candidate checks
 │   │   ├── config.py                   # Stable project paths
 │   │   └── pipeline.py                 # CLI and orchestration
-│   ├── 01_initial_exploration.py       # Earlier exploratory analysis
-│   ├── 02_exploratory_analysis.py
-│   ├── 02_preprocessing.py
-│   ├── 03_habitability_analysis.py
-│   ├── 04_habitable_planet_analysis.py
-│   └── 05_habitability_scoring.py
+├── scripts/
+│   └── legacy/                         # Historical exploratory scripts
 ├── data/
 │   ├── literature/
 │   │   └── astrobiology_sources.yml    # Papers and platform registry
