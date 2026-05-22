@@ -135,8 +135,6 @@
   <g aria-label="Data input arrows">
     <path class="arrow" d="M 362 340 C 404 340, 420 277, 468 277"/>
     <path class="arrow-muted" d="M 362 472 C 418 472, 420 607, 468 607"/>
-    <text class="small" x="374" y="326">catalog data</text>
-    <text class="small" x="372" y="494">scientific guardrails</text>
   </g>
 
   <g aria-label="Outputs">
@@ -162,7 +160,6 @@
 
   <g aria-label="Output arrows">
     <path class="arrow" d="M 930 827 C 990 827, 958 260, 1010 260"/>
-    <text class="small" x="944" y="842">exported artifacts</text>
   </g>
 
   <g aria-label="Scientific guardrails">
