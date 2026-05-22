@@ -10,6 +10,7 @@ dependencies = [
   "matplotlib",
   "seaborn",
   "requests",
+  "scipy",
 ]
 
 [project.optional-dependencies]
@@ -18,4 +19,3 @@ dev = ["pytest"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["src"]
-
