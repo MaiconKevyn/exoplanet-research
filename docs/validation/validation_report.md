@@ -20,7 +20,7 @@ The reproduction script ran:
 
 ```bash
 .venv/bin/python -m pytest -q
-.venv/bin/python -m exoplanets_research.pipeline --stage all --input data/PS_2025.06.22_09.41.26.csv --uncertainty-runs 500 --uncertainty-seed 42
+.venv/bin/python -m exoplanets_research.pipeline --stage all --input data/PS_2025.06.22_09.41.26.csv --hz-model simple_luminosity_baseline --score-profile configs/scoring/ectp_v1.yml --uncertainty-runs 500 --uncertainty-seed 42 --paper-artifacts
 .venv/bin/python -m exoplanets_research.experiments.run_ablation --config configs/experiments/paper_v1.yml
 ```
 
@@ -53,7 +53,7 @@ Command:
 Result:
 
 ```text
-30 passed in 4.05s
+32 passed in 4.45s
 ```
 
 Covered behavior:
@@ -69,7 +69,7 @@ Covered behavior:
 - Known-candidate visibility after de-duplication and scoring.
 - NASA metadata-row CSV loading.
 - PSCompPars TAP query construction.
-- Pipeline CSV, provenance, frontend JSON, uncertainty samples, and rank-uncertainty output generation.
+- Pipeline CSV, provenance, frontend JSON, configurable score-profile loading, paper-artifact export, uncertainty samples, and rank-uncertainty output generation.
 - Baseline ranking metrics.
 - External target host-star crossmatch hooks.
 - Paper experiment output generation for HZ comparison, two-baseline comparison, score sensitivity, and external target crossmatch summaries.
@@ -195,7 +195,7 @@ Result:
 vite v7.0.0 building for production...
 617 modules transformed.
 dist/assets/index-CetueJhW.js   41,093.09 kB │ gzip: 4,042.07 kB
-built in 5.82s
+built in 5.91s
 ```
 
 Warnings:

@@ -286,6 +286,23 @@ npm --prefix frontend run build
 | `export-frontend` | `.venv/bin/python -m exoplanets_research.pipeline --stage export-frontend` | Refresh the dashboard JSON through the scoring path. |
 | `all` | `.venv/bin/python -m exoplanets_research.pipeline --stage all` | Run the complete artifact generation path. |
 
+### Scientific Run Options
+
+The main pipeline accepts explicit method controls:
+
+```bash
+.venv/bin/python -m exoplanets_research.pipeline \
+  --stage all \
+  --input data/PS_2025.06.22_09.41.26.csv \
+  --hz-model simple_luminosity_baseline \
+  --score-profile configs/scoring/ectp_v1.yml \
+  --uncertainty-runs 500 \
+  --uncertainty-seed 42 \
+  --paper-artifacts
+```
+
+Use `--hz-model` for the HZ family, `--score-profile` for the versioned scoring configuration, and `--paper-artifacts` to regenerate paper tables/figures from the current ranked outputs.
+
 ### Local Quality Checks
 
 Run the Python validation suite:
@@ -303,7 +320,7 @@ npm --prefix frontend run build
 Check for unsafe scientific overclaims in implementation and docs:
 
 ```bash
-rg -n "life[ ]found|alien[ ]life|proof[ ]of[ ]life|confirmed[ ]life|biosignature[ ]detected" docs frontend/src src
+rg -n "life[ ]found|alien[ ]life|proof[ ]of[ ]life|confirmed[ ]life|biosignature[ ]detected" README.md docs paper frontend/src src tests
 ```
 
 ### Key Data Products
@@ -313,6 +330,8 @@ rg -n "life[ ]found|alien[ ]life|proof[ ]of[ ]life|confirmed[ ]life|biosignature
 | `data/processed/canonical_exoplanets.csv` | De-duplicated catalog view with one selected row per `pl_name`. |
 | `data/processed/habitable_zone_exoplanets.csv` | Canonical rows with HZ bounds and HZ status. |
 | `data/outputs/astrobiology_ranked_candidates.csv` | Ranked candidates with sub-scores, penalties, confidence, and caveats. |
+| `data/outputs/astrobiology_rank_uncertainty.csv` | 500-run score/rank uncertainty summary for every ranked candidate. |
+| `data/outputs/experiments/paper_v1/*.csv` | Paper experiment comparison tables for HZ models, baselines, score sensitivity, and external validation. |
 | `data/outputs/astrobiology_ranked_candidates.provenance.json` | Provenance metadata for the ranked output. |
 | `frontend/src/data/astrobiology_ranked_candidates.json` | Dashboard-ready export of ranked candidates. |
 

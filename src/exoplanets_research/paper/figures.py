@@ -7,15 +7,16 @@ import seaborn as sns
 
 def _write_markdown_table(df: pd.DataFrame, output_path: Path) -> None:
     headers = list(df.columns)
-    rows = df.astype(str).values.tolist()
+    rows = df.values.tolist()
     widths = [
-        max(len(str(header)), *(len(row[index]) for row in rows)) if rows else len(str(header))
+        max(len(str(header)), *(len(str(row[index])) for row in rows)) if rows else len(str(header))
         for index, header in enumerate(headers)
     ]
     header_line = "| " + " | ".join(str(header).ljust(widths[index]) for index, header in enumerate(headers)) + " |"
     divider_line = "| " + " | ".join("-" * widths[index] for index in range(len(headers))) + " |"
     row_lines = [
-        "| " + " | ".join(row[index].ljust(widths[index]) for index in range(len(headers))) + " |" for row in rows
+        "| " + " | ".join(str(row[index]).ljust(widths[index]) for index in range(len(headers))) + " |"
+        for row in rows
     ]
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text("\n".join([header_line, divider_line, *row_lines]) + "\n", encoding="utf-8")

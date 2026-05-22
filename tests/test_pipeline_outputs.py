@@ -122,3 +122,117 @@ def test_pipeline_writes_uncertainty_outputs(tmp_path):
     assert {"score_mean", "rank_median", "rank_p05", "rank_p95", "top10_probability"}.issubset(summary.columns)
     assert ranked["score_mean"].notna().all()
     assert ranked["top10_probability"].notna().all()
+
+
+def test_pipeline_accepts_score_profile_override(tmp_path):
+    df = pd.DataFrame(
+        [
+            {
+                "pl_name": "A b",
+                "hostname": "A",
+                "default_flag": 1,
+                "pl_orbsmax": 1.0,
+                "pl_rade": 1.0,
+                "pl_masse": 1.0,
+                "st_teff": 5778,
+                "st_rad": 1.0,
+                "st_lum": 0.0,
+                "sy_dist": 10.0,
+            }
+        ]
+    )
+    input_path = tmp_path / "input.csv"
+    output_root = tmp_path / "out"
+    frontend_root = tmp_path / "frontend"
+    score_profile = tmp_path / "score.yml"
+    df.to_csv(input_path, index=False)
+    score_profile.write_text(
+        """
+id: test_profile
+label: Test Profile
+description: Test score profile.
+weights:
+  hz_position: 0.20
+  planet_size: 0.20
+  stellar_context: 0.20
+  data_quality: 0.20
+  followup_readiness: 0.20
+penalties:
+  missing_field: 0.05
+  max_missing_data: 0.25
+confidence:
+  moderate_min_data_quality: 0.85
+  limited_min_data_quality: 0.60
+non_claim: No biosignature inference is made; this ranking prioritizes candidates for further observation and modeling.
+""",
+        encoding="utf-8",
+    )
+
+    outputs = run_pipeline(
+        input_path=input_path,
+        output_root=output_root,
+        frontend_root=frontend_root,
+        stage="all",
+        score_profile=score_profile,
+    )
+
+    ranked = pd.read_csv(outputs["ranked"])
+    assert ranked.loc[0, "score_profile_id"] == "test_profile"
+    assert ranked.loc[0, "score_weight_hz_position"] == 0.20
+
+
+def test_pipeline_can_export_paper_artifacts(tmp_path, monkeypatch):
+    df = pd.DataFrame(
+        [
+            {
+                "pl_name": "A b",
+                "hostname": "A",
+                "default_flag": 1,
+                "pl_orbsmax": 1.0,
+                "pl_rade": 1.0,
+                "pl_masse": 1.0,
+                "st_teff": 5778,
+                "st_rad": 1.0,
+                "st_lum": 0.0,
+                "sy_dist": 10.0,
+            },
+            {
+                "pl_name": "B b",
+                "hostname": "B",
+                "default_flag": 1,
+                "pl_orbsmax": 1.2,
+                "pl_rade": 1.2,
+                "pl_masse": 2.0,
+                "st_teff": 5600,
+                "st_rad": 1.0,
+                "st_lum": 0.0,
+                "sy_dist": 20.0,
+            },
+        ]
+    )
+    monkeypatch.chdir(tmp_path)
+    input_path = tmp_path / "input.csv"
+    experiment_config = tmp_path / "configs/experiments/paper_v1.yml"
+    input_path.write_text(df.to_csv(index=False), encoding="utf-8")
+    experiment_config.parent.mkdir(parents=True)
+    experiment_config.write_text(
+        """
+id: test_paper
+outputs:
+  directory: data/outputs/experiments/test_paper
+""",
+        encoding="utf-8",
+    )
+
+    outputs = run_pipeline(
+        input_path=input_path,
+        output_root=Path("data"),
+        frontend_root=Path("frontend"),
+        stage="all",
+        paper_artifacts=True,
+        experiment_config=experiment_config,
+    )
+
+    assert any(name.startswith("paper_artifact_") for name in outputs)
+    assert Path("paper/tables/top_candidates.md").exists()
+    assert Path("data/outputs/experiments/test_paper/paper_artifacts.yml").exists()
