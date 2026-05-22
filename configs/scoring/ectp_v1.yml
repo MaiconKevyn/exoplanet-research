@@ -1,0 +1,16 @@
+id: ectp_v1
+label: Evidence-Calibrated Target Prioritization v1
+description: Catalog-level astrobiology follow-up prioritization with decomposed evidence.
+weights:
+  hz_position: 0.35
+  planet_size: 0.20
+  stellar_context: 0.15
+  data_quality: 0.15
+  followup_readiness: 0.15
+penalties:
+  missing_field: 0.05
+  max_missing_data: 0.25
+confidence:
+  moderate_min_data_quality: 0.85
+  limited_min_data_quality: 0.60
+non_claim: No biosignature inference is made; this ranking prioritizes candidates for further observation and modeling.

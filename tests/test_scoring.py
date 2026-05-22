@@ -50,6 +50,8 @@ def test_scoring_outputs_subscores_and_conservative_caveat():
     assert row["score_total"] > 0.5
     assert 0 <= row["score_hz_position"] <= 1
     assert 0 <= row["score_data_quality"] <= 1
+    assert row["score_profile_id"] == "ectp_v1"
+    assert row["score_weight_hz_position"] == 0.35
 
 
 def test_known_candidates_survive_deduplication_and_scoring():
