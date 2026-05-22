@@ -35,4 +35,6 @@ def test_add_habitable_zone_columns_labels_inside_and_outside_orbits():
     assert result.loc[0, "habitable_zone_status"] == "inside"
     assert result.loc[1, "habitable_zone_status"] == "outside"
     assert result.loc[2, "habitable_zone_status"] == "unknown"
-    assert set(result["hz_model"].dropna()) == {"simple_luminosity_kasting_like_baseline"}
+    assert set(result["hz_model"].dropna()) == {"simple_luminosity_baseline"}
+    assert set(result["hz_inner_limit"].dropna()) == {"simple_inner_flux"}
+    assert set(result["hz_outer_limit"].dropna()) == {"simple_outer_flux"}
