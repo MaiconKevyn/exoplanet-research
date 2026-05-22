@@ -13,5 +13,12 @@ top_k:
   - 10
   - 25
   - 50
+external_targets:
+  target_list: hwo_exep_2023
+  table_name: DI_STARS_EXEP
+  path: data/external/hwo_exep_2023.csv
+  download: true
+  source_url: https://exoplanetarchive.ipac.caltech.edu/docs/MissionStellar.html
+  tap_url: https://exoplanetarchive.ipac.caltech.edu/TAP/sync
 outputs:
   directory: data/outputs/experiments/paper_v1

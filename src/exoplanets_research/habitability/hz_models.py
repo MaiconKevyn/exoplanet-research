@@ -63,10 +63,10 @@ def _simple_luminosity_baseline(st_lum: float) -> HZBounds:
 def _kopparapu_seff(st_teff: float, limit: str) -> float:
     # Coefficients from Kopparapu et al. 2014 for 1 Earth-mass HZ boundaries.
     coefficients = {
-        "recent_venus": (1.776, -1.433e-4, -3.395e-9, -7.636e-12, -1.195e-15),
-        "runaway_greenhouse": (1.107, -1.332e-4, -1.58e-8, 8.308e-12, -1.931e-15),
+        "recent_venus": (1.776, 2.136e-4, 2.533e-8, -1.332e-11, -3.097e-15),
+        "runaway_greenhouse": (1.107, 1.332e-4, 1.58e-8, -8.308e-12, -1.931e-15),
         "maximum_greenhouse": (0.356, 6.171e-5, 1.698e-9, -3.198e-12, -5.575e-16),
-        "early_mars": (0.32, 2.137e-4, -2.533e-8, -1.332e-11, -3.097e-15),
+        "early_mars": (0.32, 5.547e-5, 1.526e-9, -2.874e-12, -5.011e-16),
     }
     seff_sun, a, b, c, d = coefficients[limit]
     t_star = float(st_teff) - 5780.0
@@ -74,9 +74,13 @@ def _kopparapu_seff(st_teff: float, limit: str) -> float:
 
 
 def _kopparapu(st_lum: float, st_teff: float, *, model: str, inner_limit: str, outer_limit: str) -> HZBounds:
+    if st_teff < 2600 or st_teff > 7200:
+        return _nan_bounds(model, inner_limit, outer_limit)
     luminosity = _luminosity_from_log10(st_lum)
     inner_flux = _kopparapu_seff(st_teff, inner_limit)
     outer_flux = _kopparapu_seff(st_teff, outer_limit)
+    if inner_flux <= 0 or outer_flux <= 0:
+        return _nan_bounds(model, inner_limit, outer_limit)
     return HZBounds(
         model=model,
         inner_au=sqrt(luminosity / inner_flux),

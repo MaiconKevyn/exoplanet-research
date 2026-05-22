@@ -30,6 +30,20 @@ def test_kopparapu_conservative_returns_solar_like_bounds():
     assert bounds.outer_limit == "maximum_greenhouse"
 
 
+def test_kopparapu_optimistic_returns_valid_cool_star_bounds():
+    bounds = calculate_hz_bounds(st_lum=-1.0, st_teff=4200, model="kopparapu_optimistic_earth_mass")
+
+    assert bounds.inner_au > 0
+    assert bounds.outer_au > bounds.inner_au
+
+
+def test_kopparapu_returns_unknown_outside_published_temperature_domain():
+    bounds = calculate_hz_bounds(st_lum=0.0, st_teff=10000, model="kopparapu_conservative_earth_mass")
+
+    assert pd.isna(bounds.inner_au)
+    assert pd.isna(bounds.outer_au)
+
+
 def test_invalid_or_missing_inputs_return_unknown_bounds():
     bounds = calculate_hz_bounds(st_lum=pd.NA, st_teff=5780, model="kopparapu_conservative_earth_mass")
 

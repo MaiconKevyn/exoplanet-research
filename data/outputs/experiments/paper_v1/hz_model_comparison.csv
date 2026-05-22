@@ -1,0 +1,4 @@
+hz_model,n_candidates,inside_hz_count,top_10_overlap,top_25_overlap,top_50_overlap
+simple_luminosity_baseline,4236,84,1.0,1.0,1.0
+kopparapu_conservative_earth_mass,4188,127,0.111,0.429,0.613
+kopparapu_optimistic_earth_mass,4188,196,0.111,0.316,0.449

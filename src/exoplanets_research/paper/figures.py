@@ -28,6 +28,10 @@ def write_top_candidate_table(ranked: pd.DataFrame, output_path: Path, *, top_n:
     _write_markdown_table(table, output_path)
 
 
+def write_markdown_table(df: pd.DataFrame, output_path: Path) -> None:
+    _write_markdown_table(df, output_path)
+
+
 def plot_score_distribution(ranked: pd.DataFrame, output_path: Path) -> None:
     output_path.parent.mkdir(parents=True, exist_ok=True)
     plt.figure(figsize=(8, 4.5))
@@ -85,8 +89,12 @@ def plot_rank_uncertainty(uncertainty: pd.DataFrame, output_path: Path, *, top_n
 
 def plot_hz_model_overlap(experiment_summary: pd.DataFrame, output_path: Path) -> None:
     output_path.parent.mkdir(parents=True, exist_ok=True)
+    data = experiment_summary.copy()
+    if "top_k_overlap" not in data.columns:
+        overlap_columns = [column for column in data.columns if column.startswith("top_") and column.endswith("_overlap")]
+        data["top_k_overlap"] = data[overlap_columns[0]]
     plt.figure(figsize=(8, 4.5))
-    sns.barplot(data=experiment_summary, x="hz_model", y="top_k_overlap", color="#2f725b")
+    sns.barplot(data=data, x="hz_model", y="top_k_overlap", color="#2f725b")
     plt.ylim(0, 1)
     plt.xlabel("HZ model")
     plt.ylabel("Top-k overlap")

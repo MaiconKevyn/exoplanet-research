@@ -1,4 +1,13 @@
 paper_artifacts:
+- data/outputs/experiments/paper_v1/hz_model_comparison.csv
+- paper/tables/hz_model_comparison.md
+- paper/figures/hz_model_overlap.png
+- data/outputs/experiments/paper_v1/baseline_comparison.csv
+- paper/tables/baseline_comparison.md
+- data/outputs/experiments/paper_v1/external_validation.csv
+- data/outputs/experiments/paper_v1/external_validation_summary.csv
+- paper/tables/external_validation_summary.md
+- docs/validation/external_data_inventory.md
 - paper/tables/top_candidates.md
 - paper/figures/score_distribution.png
 - paper/figures/subscore_heatmap_top25.png
