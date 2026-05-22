@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from exoplanets_research.experiments import run_ablation
+from exoplanets_research.experiments import comparisons, external_validation
 
 
 def _ranked(names: list[str]) -> pd.DataFrame:
@@ -30,10 +30,10 @@ def test_hz_and_baseline_comparison_write_outputs(tmp_path, monkeypatch):
         return _ranked(["A b", "B b", "C b"])
 
     monkeypatch.chdir(tmp_path)
-    monkeypatch.setattr(run_ablation, "build_ranked_candidates", fake_build_ranked_candidates)
+    monkeypatch.setattr(comparisons, "build_ranked_candidates", fake_build_ranked_candidates)
 
-    hz_summary, hz_outputs = run_ablation.run_hz_model_comparison(manifest, tmp_path / "outputs")
-    baseline_summary, baseline_outputs = run_ablation.run_baseline_comparison(manifest, tmp_path / "outputs")
+    hz_summary, hz_outputs = comparisons.run_hz_model_comparison(manifest, tmp_path / "outputs")
+    baseline_summary, baseline_outputs = comparisons.run_baseline_comparison(manifest, tmp_path / "outputs")
 
     assert list(hz_summary["hz_model"]) == ["simple_luminosity_baseline", "kopparapu_conservative_earth_mass"]
     assert hz_summary.loc[1, "top_2_overlap"] == 1.0
@@ -64,9 +64,9 @@ def test_score_sensitivity_writes_profile_comparisons(tmp_path, monkeypatch):
         }
     )
     monkeypatch.chdir(tmp_path)
-    monkeypatch.setattr(run_ablation, "build_featured_candidates", lambda input_path, *, hz_model: featured)
+    monkeypatch.setattr(comparisons, "build_featured_candidates", lambda input_path, *, hz_model: featured)
 
-    summary, outputs = run_ablation.run_score_sensitivity(manifest, tmp_path / "outputs")
+    summary, outputs = comparisons.run_score_sensitivity(manifest, tmp_path / "outputs")
 
     assert {"ectp_v1", "ectp_hz_emphasis", "ectp_followup_emphasis", "ectp_data_quality_emphasis"} == set(
         summary["score_profile"]
@@ -93,7 +93,7 @@ def test_external_validation_writes_crossmatch_outputs(tmp_path, monkeypatch):
     _ranked(["A b", "B b", "C b"]).to_csv(ranked_path, index=False)
     pd.DataFrame({"hostname": ["B"], "target_list": ["hwo_exep_2023"]}).to_csv(target_path, index=False)
 
-    summary, outputs = run_ablation.run_external_validation(manifest, tmp_path / "outputs")
+    summary, outputs = external_validation.run_external_validation(manifest, tmp_path / "outputs")
 
     assert summary.loc[0, "target_hosts"] == 1
     assert summary.loc[0, "matched_candidates"] == 1
