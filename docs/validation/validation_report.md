@@ -20,7 +20,7 @@ The reproduction script ran:
 
 ```bash
 .venv/bin/python -m pytest -q
-.venv/bin/python -m exoplanets_research.pipeline --stage all --input data/PS_2025.06.22_09.41.26.csv --uncertainty-runs 25 --uncertainty-seed 42
+.venv/bin/python -m exoplanets_research.pipeline --stage all --input data/PS_2025.06.22_09.41.26.csv --uncertainty-runs 500 --uncertainty-seed 42
 .venv/bin/python -m exoplanets_research.experiments.run_ablation --config configs/experiments/paper_v1.yml
 ```
 
@@ -85,7 +85,7 @@ Generated outputs:
 | `data/processed/canonical_exoplanets.csv` | 5,921 | 290 | One selected row per `pl_name`, with duplicate metadata. |
 | `data/processed/habitable_zone_exoplanets.csv` | 4,236 | 296 | Canonical rows with orbit and luminosity sufficient for HZ calculation. |
 | `data/outputs/astrobiology_ranked_candidates.csv` | 4,236 | 327 | ECTP-ranked candidates with sub-scores, profile metadata, caveats, HZ model fields, and uncertainty summary columns. |
-| `data/outputs/astrobiology_uncertainty_samples.csv` | 105,900 | 5 | 25 Monte Carlo runs, reduced to rank-stability essentials. |
+| `data/outputs/astrobiology_uncertainty_samples.csv` | 2,118,000 | 5 | 500 Monte Carlo runs, reduced to rank-stability essentials. |
 | `data/outputs/astrobiology_rank_uncertainty.csv` | 4,236 | 7 | Score mean/std, rank quantiles, and top-10 probability. |
 | `data/outputs/experiments/paper_v1/hz_model_comparison.csv` | 3 | 6 | Model-level top-k overlap and HZ candidate counts. |
 | `data/outputs/experiments/paper_v1/baseline_comparison.csv` | 2 | 7 | ECTP versus HZ-radius and follow-up-readiness baselines. |
@@ -111,17 +111,17 @@ Provenance sidecars:
 | 4 | TOI-700 d | TOI-700 | 0.742 | `simple_luminosity_baseline` | `ectp_v1` | limited_catalog_confidence |
 | 5 | Kepler-705 b | Kepler-705 | 0.725 | `simple_luminosity_baseline` | `ectp_v1` | limited_catalog_confidence |
 
-## Current Rank-Stability Smoke Results
+## Current Rank-Stability Results
 
-The current reproduction script runs 25 Monte Carlo samples as a smoke-grade rank-stability gate. The experiment manifest keeps the paper target at 500 runs, but the generated repository artifact is intentionally smaller for routine validation.
+The current reproduction script runs the paper manifest target of 500 Monte Carlo samples by default. For faster local smoke checks, set `UNCERTAINTY_RUNS=25`.
 
 | Planet | Score mean | Score std | Median rank | Rank p05 | Rank p95 | Top-10 probability |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| LP 890-9 c | 0.793 | 0.011 | 2.0 | 1.0 | 3.0 | 1.00 |
-| TRAPPIST-1 e | 0.730 | 0.123 | 2.0 | 1.0 | 805.2 | 0.80 |
-| TOI-700 d | 0.731 | 0.041 | 5.0 | 1.4 | 10.0 | 0.96 |
-| Kepler-1704 b | 0.679 | 0.034 | 8.0 | 4.2 | 28.2 | 0.68 |
-| Kepler-1544 b | 0.679 | 0.049 | 9.0 | 4.0 | 85.4 | 0.60 |
+| LP 890-9 c | 0.792 | 0.014 | 1.5 | 1.0 | 3.0 | 1.000 |
+| TRAPPIST-1 e | 0.727 | 0.095 | 3.0 | 1.0 | 799.0 | 0.856 |
+| TOI-700 d | 0.736 | 0.053 | 4.0 | 1.0 | 12.0 | 0.924 |
+| Kepler-1704 b | 0.684 | 0.030 | 8.0 | 4.0 | 24.0 | 0.700 |
+| Kepler-705 b | 0.667 | 0.059 | 10.0 | 4.0 | 105.0 | 0.540 |
 
 ## HZ Model and Baseline Comparisons
 
@@ -194,8 +194,8 @@ Result:
 ```text
 vite v7.0.0 building for production...
 617 modules transformed.
-dist/assets/index-B1ZaTFvk.js   41,084.67 kB │ gzip: 4,034.83 kB
-built in 5.83s
+dist/assets/index-CetueJhW.js   41,093.09 kB │ gzip: 4,042.07 kB
+built in 5.82s
 ```
 
 Warnings:
@@ -215,7 +215,7 @@ Largest generated or source artifacts from the current validation run:
 | `data/processed/canonical_exoplanets.csv` | 11M |
 | `data/outputs/astrobiology_ranked_candidates.csv` | 9.9M |
 | `data/processed/habitable_zone_exoplanets.csv` | 8.1M |
-| `data/outputs/astrobiology_uncertainty_samples.csv` | 4.2M |
+| `data/outputs/astrobiology_uncertainty_samples.csv` | 86M |
 
 ## Conservative Language Check
 
@@ -228,7 +228,7 @@ No matches.
 ## Scientific Limitations
 
 - The default reproduction output still uses `simple_luminosity_baseline`; Kopparapu model comparison is generated, but manuscript submission should still decide which HZ family is the primary analysis.
-- The current routine Monte Carlo output uses 25 smoke runs. The `paper_v1` manifest targets 500 runs for a paper-grade run.
+- The current routine Monte Carlo output uses the `paper_v1` target of 500 runs; use `UNCERTAINTY_RUNS=25` only for local smoke checks.
 - HWO ExEP validation is automated and inventoried. HPIC remains a future expansion because it is distributed as a larger downloadable package rather than the current default TAP table.
 - The ranking uses catalog-level fields and cannot infer atmospheric biosignatures.
 - Disequilibrium, oxygen context, atmospheric retrievals, surface spectra, stellar activity, and photochemical false positives remain future evidence classes.
@@ -236,4 +236,4 @@ No matches.
 
 ## Conclusion
 
-The current implementation is validated as a reproducible, literature-grounded candidate-prioritization platform with a paper-oriented scaffold. It now has the core infrastructure required for a scientific manuscript: method contract, corrected HZ model families, versioned scoring, uncertainty outputs, baseline metrics, automated HWO ExEP validation, paper artifacts, CI, citation metadata, and a reproducibility script. The remaining scientific work before submission is to run the full 500-sample experiment matrix, add HPIC-scale ingestion if required by the manuscript framing, and complete the manuscript results/discussion sections from the generated artifacts.
+The current implementation is validated as a reproducible, literature-grounded candidate-prioritization platform with a paper-oriented scaffold. It now has the core infrastructure required for a scientific manuscript: method contract, corrected HZ model families, versioned scoring, 500-run uncertainty outputs, baseline metrics, score-weight sensitivity, automated HWO ExEP validation, paper artifacts, CI, citation metadata, and a reproducibility script. The remaining scientific work before submission is to add HPIC-scale ingestion if required by the manuscript framing and complete the manuscript results/discussion sections from the generated artifacts.

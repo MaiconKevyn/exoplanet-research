@@ -36,7 +36,7 @@ The HWO ExEP crossmatch finds 16 ranked candidates whose host stars are present 
 
 ECTP should be interpreted as a decision-support layer for follow-up prioritization. It cannot infer atmospheric composition, disequilibrium, biological activity, or habitability in the ecological sense from catalog-only fields.
 
-The main scientific contribution is a reproducible audit trail for astrobiology target prioritization: every ranked candidate carries model provenance, score decomposition, uncertainty summaries, confidence caveats, and sensitivity checks against alternative HZ assumptions, simple baselines, and score-weight perturbations. The next manuscript iteration should run the full 500-sample uncertainty experiment, decide the primary HZ family for the headline ranking, and add HPIC-scale validation if the paper frames ECTP as a mission-planning bridge rather than only a confirmed-exoplanet ranking platform.
+The main scientific contribution is a reproducible audit trail for astrobiology target prioritization: every ranked candidate carries model provenance, score decomposition, 500-sample uncertainty summaries, confidence caveats, and sensitivity checks against alternative HZ assumptions, simple baselines, and score-weight perturbations. The next manuscript iteration should decide the primary HZ family for the headline ranking and add HPIC-scale validation if the paper frames ECTP as a mission-planning bridge rather than only a confirmed-exoplanet ranking platform.
 
 ## Reproducibility
 

@@ -375,6 +375,12 @@ The paper-grade experiment package can be regenerated with:
 paper/reproduce.sh
 ```
 
+By default this runs the 500-sample uncertainty target from `paper_v1`. For a faster local smoke check, use:
+
+```bash
+UNCERTAINTY_RUNS=25 paper/reproduce.sh
+```
+
 ## License
 
 This repository is distributed under the MIT License. See [LICENSE](LICENSE).
