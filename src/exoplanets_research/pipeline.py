@@ -16,6 +16,7 @@ from exoplanets_research.uncertainty.monte_carlo import generate_uncertainty_sam
 
 
 DEFAULT_INPUT = DATA_DIR / "PS_2025.06.22_09.41.26.csv"
+UNCERTAINTY_SUMMARY_COLUMNS = ["score_mean", "score_std", "rank_median", "rank_p05", "rank_p95", "top10_probability"]
 
 
 def _write_provenance(path: Path, *, input_file: Path, row_count: int, stage: str) -> None:
@@ -36,6 +37,20 @@ def _write_frontend_json(csv_path: Path, frontend_root: Path) -> Path:
     df = pd.read_csv(csv_path, low_memory=False)
     df.to_json(output_path, orient="records", indent=2)
     return output_path
+
+
+def _attach_uncertainty_summary(ranked: pd.DataFrame, summary: pd.DataFrame | None = None) -> pd.DataFrame:
+    result = ranked.copy()
+    for column in UNCERTAINTY_SUMMARY_COLUMNS:
+        if column not in result.columns:
+            result[column] = pd.NA
+    if summary is None or summary.empty:
+        return result
+    return result.drop(columns=UNCERTAINTY_SUMMARY_COLUMNS, errors="ignore").merge(
+        summary[["pl_name", *UNCERTAINTY_SUMMARY_COLUMNS]],
+        on="pl_name",
+        how="left",
+    )
 
 
 def run_pipeline(
@@ -82,15 +97,7 @@ def run_pipeline(
 
     featured = add_habitability_features(hz)
     ranked = score_candidates(featured)
-    ranked_path = outputs_dir / "astrobiology_ranked_candidates.csv"
-    ranked.to_csv(ranked_path, index=False)
-    ranked_provenance = outputs_dir / "astrobiology_ranked_candidates.provenance.json"
-    _write_provenance(ranked_provenance, input_file=input_path, row_count=len(ranked), stage="score")
-    outputs["ranked"] = ranked_path
-    outputs["ranked_provenance"] = ranked_provenance
-
-    if stage in {"score", "all", "export-frontend"}:
-        outputs["frontend_json"] = _write_frontend_json(ranked_path, frontend_root)
+    uncertainty_summary = None
 
     if uncertainty_runs > 0 and stage in {"score", "all", "export-frontend"}:
         uncertainty_samples = generate_uncertainty_samples(
@@ -106,6 +113,17 @@ def run_pipeline(
         uncertainty_summary.to_csv(uncertainty_summary_path, index=False)
         outputs["uncertainty_samples"] = uncertainty_samples_path
         outputs["rank_uncertainty"] = uncertainty_summary_path
+
+    ranked = _attach_uncertainty_summary(ranked, uncertainty_summary)
+    ranked_path = outputs_dir / "astrobiology_ranked_candidates.csv"
+    ranked.to_csv(ranked_path, index=False)
+    ranked_provenance = outputs_dir / "astrobiology_ranked_candidates.provenance.json"
+    _write_provenance(ranked_provenance, input_file=input_path, row_count=len(ranked), stage="score")
+    outputs["ranked"] = ranked_path
+    outputs["ranked_provenance"] = ranked_provenance
+
+    if stage in {"score", "all", "export-frontend"}:
+        outputs["frontend_json"] = _write_frontend_json(ranked_path, frontend_root)
 
     return outputs
 

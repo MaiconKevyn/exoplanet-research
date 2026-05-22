@@ -29,6 +29,37 @@ Every ranked row must include:
 - provenance pointer;
 - interpretation caveat.
 
+## Output Field Definitions
+
+| Field | Definition |
+| --- | --- |
+| `score_hz_position` | Central evidence score for whether the planet's orbit falls inside the selected HZ model and how close it is to the HZ center. |
+| `score_planet_size` | Central evidence score for approximate terrestrial-size compatibility using catalog planet radius. |
+| `score_stellar_context` | Central evidence score for stellar effective-temperature context, with G/K stars favored over hotter or poorly constrained hosts. |
+| `score_data_quality` | Fraction of critical catalog fields present for the candidate. |
+| `score_followup_readiness` | Simple observability/readiness score based on distance and availability of key catalog parameters. |
+| `penalty_missing_data` | Bounded penalty for missing critical catalog fields. |
+| `score_total` | Weighted, clipped ECTP central score from the versioned scoring profile. |
+| `score_mean` | Mean `score_total` across Monte Carlo catalog-uncertainty samples. |
+| `score_std` | Standard deviation of `score_total` across Monte Carlo samples. |
+| `rank_median` | Median candidate rank across Monte Carlo samples. |
+| `rank_p05` | Fifth-percentile candidate rank across Monte Carlo samples. |
+| `rank_p95` | Ninety-fifth-percentile candidate rank across Monte Carlo samples. |
+| `top10_probability` | Fraction of Monte Carlo samples in which the candidate appears in the top 10. |
+| `evidence_confidence` | Conservative catalog-evidence maturity label; not a biosignature confidence score. |
+
+## HZ Model Provenance
+
+| Model | Method basis | Interpretation |
+| --- | --- | --- |
+| `simple_luminosity_baseline` | Luminosity-scaled inner/outer flux baseline retained for reproducibility against the original project artifact. | Baseline comparison model, not a full climate model. |
+| `kopparapu_conservative_earth_mass` | Kopparapu et al. 2014 1 Earth-mass runaway-greenhouse and maximum-greenhouse limits. | Conservative liquid-water HZ sensitivity model. |
+| `kopparapu_optimistic_earth_mass` | Kopparapu et al. 2014 1 Earth-mass recent-Venus and early-Mars empirical limits. | Optimistic HZ sensitivity model. |
+
+## Uncertainty Sampling Rules
+
+Monte Carlo rank-stability samples perturb `pl_orbsmax`, `pl_rade`, `pl_masse`, `st_teff`, `st_rad`, and `st_lum` when NASA Exoplanet Archive `err1`/`err2` columns are available. The sampler uses a normal draw centered on the catalog value with sigma equal to the larger absolute asymmetric uncertainty. Non-negative physical quantities are clipped at zero. Missing central values remain missing, and runs are summarized into score and rank statistics.
+
 ## Non-Claims
 
 The system does not claim atmospheric composition, disequilibrium, biosignatures, biological activity, or habitability in the ecological sense.

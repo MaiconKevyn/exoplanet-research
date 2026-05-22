@@ -1,0 +1,5 @@
+score_profile,n,spearman_r,kendall_tau,top_10_overlap,top_25_overlap,top_50_overlap
+ectp_v1,4236,1.0,1.0,1.0,1.0,1.0
+ectp_hz_emphasis,4236,0.998,0.987,1.0,0.613,0.515
+ectp_followup_emphasis,4236,0.998,0.983,0.818,0.613,0.786
+ectp_data_quality_emphasis,4236,0.989,0.939,0.818,0.786,0.786

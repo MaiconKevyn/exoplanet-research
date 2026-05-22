@@ -23,8 +23,12 @@ def _write_markdown_table(df: pd.DataFrame, output_path: Path) -> None:
 
 def write_top_candidate_table(ranked: pd.DataFrame, output_path: Path, *, top_n: int = 25) -> None:
     columns = ["pl_name", "hostname", "score_total", "evidence_confidence"]
+    optional_columns = ["score_mean", "score_std", "rank_median", "rank_p05", "rank_p95", "top10_probability"]
+    columns.extend(column for column in optional_columns if column in ranked.columns)
     table = ranked.loc[:, columns].head(top_n).copy()
-    table["score_total"] = table["score_total"].round(3)
+    for column in ["score_total", *optional_columns]:
+        if column in table.columns:
+            table[column] = table[column].round(3)
     _write_markdown_table(table, output_path)
 
 

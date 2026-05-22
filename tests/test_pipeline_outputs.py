@@ -47,6 +47,9 @@ def test_pipeline_writes_ranked_outputs_with_provenance(tmp_path):
 
     assert list(ranked["pl_name"]) == ["A b", "B b"]
     assert ranked.loc[0, "score_total"] >= ranked.loc[1, "score_total"]
+    assert {"score_mean", "score_std", "rank_median", "rank_p05", "rank_p95", "top10_probability"}.issubset(
+        ranked.columns
+    )
     assert provenance["row_count"] == 2
     assert provenance["generated_by"] == "src/exoplanets_research/pipeline.py"
     assert frontend_path.exists()
@@ -113,6 +116,9 @@ def test_pipeline_writes_uncertainty_outputs(tmp_path):
 
     samples = pd.read_csv(outputs["uncertainty_samples"])
     summary = pd.read_csv(outputs["rank_uncertainty"])
+    ranked = pd.read_csv(outputs["ranked"])
 
     assert set(samples["run_id"]) == {0, 1}
     assert {"score_mean", "rank_median", "rank_p05", "rank_p95", "top10_probability"}.issubset(summary.columns)
+    assert ranked["score_mean"].notna().all()
+    assert ranked["top10_probability"].notna().all()

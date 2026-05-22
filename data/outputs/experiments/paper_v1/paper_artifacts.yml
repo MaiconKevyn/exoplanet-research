@@ -4,6 +4,8 @@ paper_artifacts:
 - paper/figures/hz_model_overlap.png
 - data/outputs/experiments/paper_v1/baseline_comparison.csv
 - paper/tables/baseline_comparison.md
+- data/outputs/experiments/paper_v1/score_sensitivity.csv
+- paper/tables/score_sensitivity.md
 - data/outputs/experiments/paper_v1/external_validation.csv
 - data/outputs/experiments/paper_v1/external_validation_summary.csv
 - paper/tables/external_validation_summary.md

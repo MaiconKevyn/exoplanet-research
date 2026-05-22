@@ -21,9 +21,11 @@ jobs:
           python -m pip install -e ".[dev]"
       - name: Run tests
         run: python -m pytest -q
+      - name: Pipeline smoke
+        run: python -m exoplanets_research.pipeline --stage score --input data/PS_2025.06.22_09.41.26.csv
       - name: Conservative language check
         run: |
-          ! grep -R -n -E "life[ ]found|alien[ ]life|proof[ ]of[ ]life|confirmed[ ]life|biosignature[ ]detected" docs frontend/src src
+          ! grep -R -n -E "life[ ]found|alien[ ]life|proof[ ]of[ ]life|confirmed[ ]life|biosignature[ ]detected" README.md docs paper frontend/src src tests
       - name: Frontend install
         run: npm --prefix frontend ci
       - name: Frontend build

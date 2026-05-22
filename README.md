@@ -122,6 +122,12 @@ Ranking is intentionally decomposed rather than hidden behind one opaque number:
 - `score_followup_readiness`
 - `penalty_missing_data`
 - `score_total`
+- `score_mean`
+- `score_std`
+- `rank_median`
+- `rank_p05`
+- `rank_p95`
+- `top10_probability`
 - `evidence_confidence`
 
 This makes the output useful for scientific review, error analysis, and future model replacement.

@@ -26,7 +26,9 @@ The current archive snapshot yields 4,236 ranked candidates with enough catalog 
 
 HZ model sensitivity is substantial. Relative to the simple luminosity baseline, the Kopparapu conservative model has top-25 overlap of 0.429 and the Kopparapu optimistic model has top-25 overlap of 0.316. This shows that ECTP rankings are sensitive to the climate boundary assumption and that manuscript claims must report the HZ model family rather than presenting a single universal ranking.
 
-The HZ-radius baseline has Spearman rank correlation of 0.304 and Kendall tau of 0.217 against ECTP, with top-25 overlap of 0.111. This supports the contribution that ECTP is not simply reproducing a coarse HZ-and-radius filter; the decomposed evidence score changes candidate ordering.
+The HZ-radius baseline has Spearman rank correlation of 0.304 and Kendall tau of 0.217 against ECTP, with top-25 overlap of 0.111. A follow-up-readiness baseline has higher global correlation (Spearman 0.641, Kendall tau 0.439) but no top-25 overlap. Together these comparisons support the contribution that ECTP is not simply reproducing a coarse HZ-and-radius filter or a nearby/easy-follow-up filter; the decomposed evidence score changes candidate ordering.
+
+Score-weight sensitivity shows high global rank correlation across normalized perturbation profiles, but top-k candidate overlap changes. The HZ-emphasis and follow-up-emphasis profiles both have top-25 overlap of 0.613 against the default profile, while the data-quality-emphasis profile has top-25 overlap of 0.786. This means broad ordering is stable but headline top-candidate claims remain profile-dependent and must be reported with profile metadata.
 
 The HWO ExEP crossmatch finds 16 ranked candidates whose host stars are present in the mission-facing target list, with one match in the top 50 and none in the top 25. This is not a failure of the model or a biosignature statement; it indicates that catalog-confirmed exoplanet follow-up ranking and direct-imaging stellar target selection optimize related but distinct scientific objectives.
 
@@ -34,7 +36,7 @@ The HWO ExEP crossmatch finds 16 ranked candidates whose host stars are present 
 
 ECTP should be interpreted as a decision-support layer for follow-up prioritization. It cannot infer atmospheric composition, disequilibrium, biological activity, or habitability in the ecological sense from catalog-only fields.
 
-The main scientific contribution is a reproducible audit trail for astrobiology target prioritization: every ranked candidate carries model provenance, score decomposition, confidence caveats, and sensitivity checks against alternative HZ assumptions and a simple baseline. The next manuscript iteration should run the full 500-sample uncertainty experiment, decide the primary HZ family for the headline ranking, and add HPIC-scale validation if the paper frames ECTP as a mission-planning bridge rather than only a confirmed-exoplanet ranking platform.
+The main scientific contribution is a reproducible audit trail for astrobiology target prioritization: every ranked candidate carries model provenance, score decomposition, uncertainty summaries, confidence caveats, and sensitivity checks against alternative HZ assumptions, simple baselines, and score-weight perturbations. The next manuscript iteration should run the full 500-sample uncertainty experiment, decide the primary HZ family for the headline ranking, and add HPIC-scale validation if the paper frames ECTP as a mission-planning bridge rather than only a confirmed-exoplanet ranking platform.
 
 ## Reproducibility
 

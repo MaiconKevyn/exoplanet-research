@@ -53,7 +53,7 @@ Command:
 Result:
 
 ```text
-28 passed in 4.10s
+30 passed in 4.05s
 ```
 
 Covered behavior:
@@ -72,7 +72,7 @@ Covered behavior:
 - Pipeline CSV, provenance, frontend JSON, uncertainty samples, and rank-uncertainty output generation.
 - Baseline ranking metrics.
 - External target host-star crossmatch hooks.
-- Paper experiment output generation for HZ comparison, baseline comparison, and external target crossmatch summaries.
+- Paper experiment output generation for HZ comparison, two-baseline comparison, score sensitivity, and external target crossmatch summaries.
 - Paper table generation.
 - Experiment manifest validation.
 
@@ -84,11 +84,12 @@ Generated outputs:
 | --- | ---: | ---: | --- |
 | `data/processed/canonical_exoplanets.csv` | 5,921 | 290 | One selected row per `pl_name`, with duplicate metadata. |
 | `data/processed/habitable_zone_exoplanets.csv` | 4,236 | 296 | Canonical rows with orbit and luminosity sufficient for HZ calculation. |
-| `data/outputs/astrobiology_ranked_candidates.csv` | 4,236 | 321 | ECTP-ranked candidates with sub-scores, profile metadata, caveats, and HZ model fields. |
+| `data/outputs/astrobiology_ranked_candidates.csv` | 4,236 | 327 | ECTP-ranked candidates with sub-scores, profile metadata, caveats, HZ model fields, and uncertainty summary columns. |
 | `data/outputs/astrobiology_uncertainty_samples.csv` | 105,900 | 5 | 25 Monte Carlo runs, reduced to rank-stability essentials. |
 | `data/outputs/astrobiology_rank_uncertainty.csv` | 4,236 | 7 | Score mean/std, rank quantiles, and top-10 probability. |
 | `data/outputs/experiments/paper_v1/hz_model_comparison.csv` | 3 | 6 | Model-level top-k overlap and HZ candidate counts. |
-| `data/outputs/experiments/paper_v1/baseline_comparison.csv` | 1 | 7 | ECTP versus HZ-radius baseline overlap and rank correlation. |
+| `data/outputs/experiments/paper_v1/baseline_comparison.csv` | 2 | 7 | ECTP versus HZ-radius and follow-up-readiness baselines. |
+| `data/outputs/experiments/paper_v1/score_sensitivity.csv` | 4 | 7 | ECTP score-weight sensitivity profiles with top-k overlap and rank correlation. |
 | `data/outputs/experiments/paper_v1/external_validation_summary.csv` | 1 | 7 | HWO ExEP host crossmatch summary. |
 | `data/outputs/experiments/paper_v1/external_validation.csv` | 4,236 | 7 | Ranked candidates annotated with external target flags. |
 | `frontend/src/data/astrobiology_ranked_candidates.json` | 4,236 | n/a | Dashboard export. |
@@ -132,15 +133,27 @@ The experiment runner now recomputes rankings across the manifest's HZ model fam
 | `kopparapu_conservative_earth_mass` | 4,188 | 127 | 0.111 | 0.429 | 0.613 |
 | `kopparapu_optimistic_earth_mass` | 4,188 | 196 | 0.111 | 0.316 | 0.449 |
 
-The simple HZ-radius baseline has weak-to-moderate agreement with ECTP, which supports the claim that ECTP is not merely re-labeling the widest HZ/radius filter.
+The simple HZ-radius baseline has weak-to-moderate agreement with ECTP, while the follow-up-readiness baseline has stronger global rank correlation but no top-25 overlap. Together these baselines test whether ECTP is simply reproducing a coarse HZ/radius filter or a nearby/easy-follow-up filter.
 
 | Baseline | n | Spearman r | Kendall tau | Top-10 overlap | Top-25 overlap | Top-50 overlap |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
 | `hz_radius_baseline` | 4,236 | 0.304 | 0.217 | 0.250 | 0.111 | 0.111 |
+| `followup_readiness_baseline` | 4,236 | 0.641 | 0.439 | 0.000 | 0.000 | 0.031 |
+
+## Score-Weight Sensitivity
+
+The experiment runner now compares the default profile against three normalized weight-perturbation profiles. Global rank correlations remain high, but top-k overlap changes materially, which identifies which conclusions are robust and which top-candidate statements must be treated as profile-dependent.
+
+| Score profile | n | Spearman r | Kendall tau | Top-10 overlap | Top-25 overlap | Top-50 overlap |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| `ectp_v1` | 4,236 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 |
+| `ectp_hz_emphasis` | 4,236 | 0.998 | 0.987 | 1.000 | 0.613 | 0.515 |
+| `ectp_followup_emphasis` | 4,236 | 0.998 | 0.983 | 0.818 | 0.613 | 0.786 |
+| `ectp_data_quality_emphasis` | 4,236 | 0.989 | 0.939 | 0.818 | 0.786 | 0.786 |
 
 ## External Mission-Target Validation
 
-The experiment runner downloads the NASA Exoplanet Archive HWO ExEP Precursor Science Stars TAP table `DI_STARS_EXEP` when the local file is absent, then performs a conservative host-name crossmatch against the ranked candidate table. HPIC is documented in the external inventory as the next large-catalog ingestion target, but it is not included in the default automated run until a stable tabular ingestion contract is added.
+The experiment runner downloads the NASA Exoplanet Archive HWO ExEP Precursor Science Stars TAP table `DI_STARS_EXEP` when the local file is absent, records source URL/download date/checksum in the external data inventory, then performs a conservative host-name crossmatch against the ranked candidate table. HPIC is documented in the external inventory as the next large-catalog ingestion target, but it is not included in the default automated run until a stable tabular ingestion contract is added.
 
 | Target list | Source table | Target hosts | Ranked candidates | Matched candidates | Matched top 25 | Matched top 50 |
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
@@ -156,11 +169,13 @@ Generated artifacts:
 - `paper/figures/rank_uncertainty_top25.png`
 - `paper/tables/hz_model_comparison.md`
 - `paper/tables/baseline_comparison.md`
+- `paper/tables/score_sensitivity.md`
 - `paper/tables/external_validation_summary.md`
 - `paper/figures/hz_model_overlap.png`
 - `docs/validation/external_data_inventory.md`
 - `data/outputs/experiments/paper_v1/hz_model_comparison.csv`
 - `data/outputs/experiments/paper_v1/baseline_comparison.csv`
+- `data/outputs/experiments/paper_v1/score_sensitivity.csv`
 - `data/outputs/experiments/paper_v1/external_validation.csv`
 - `data/outputs/experiments/paper_v1/external_validation_summary.csv`
 - `data/outputs/experiments/paper_v1/manifest_resolved.yml`
@@ -179,13 +194,28 @@ Result:
 ```text
 vite v7.0.0 building for production...
 617 modules transformed.
-built in 5.82s
+dist/assets/index-B1ZaTFvk.js   41,084.67 kB │ gzip: 4,034.83 kB
+built in 5.83s
 ```
 
 Warnings:
 
 - Browserslist/caniuse-lite data is stale.
 - The JavaScript bundle is large because the dashboard imports large static JSON artifacts.
+
+## Data-Size Review
+
+Largest generated or source artifacts from the current validation run:
+
+| Artifact | Size |
+| --- | ---: |
+| `data/PS_2025.06.22_09.41.26.csv` | 71M |
+| `data/processed_exoplanet_data.csv` | 63M |
+| `frontend/src/data/astrobiology_ranked_candidates.json` | 38M |
+| `data/processed/canonical_exoplanets.csv` | 11M |
+| `data/outputs/astrobiology_ranked_candidates.csv` | 9.9M |
+| `data/processed/habitable_zone_exoplanets.csv` | 8.1M |
+| `data/outputs/astrobiology_uncertainty_samples.csv` | 4.2M |
 
 ## Conservative Language Check
 
@@ -197,7 +227,7 @@ No matches.
 
 ## Scientific Limitations
 
-- The default reproduction output still uses `simple_luminosity_baseline`; Kopparapu model comparison is now generated, but manuscript submission should still decide which HZ family is the primary analysis.
+- The default reproduction output still uses `simple_luminosity_baseline`; Kopparapu model comparison is generated, but manuscript submission should still decide which HZ family is the primary analysis.
 - The current routine Monte Carlo output uses 25 smoke runs. The `paper_v1` manifest targets 500 runs for a paper-grade run.
 - HWO ExEP validation is automated and inventoried. HPIC remains a future expansion because it is distributed as a larger downloadable package rather than the current default TAP table.
 - The ranking uses catalog-level fields and cannot infer atmospheric biosignatures.

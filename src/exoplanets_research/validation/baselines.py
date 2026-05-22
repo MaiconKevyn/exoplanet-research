@@ -26,3 +26,13 @@ def hz_radius_baseline(df: pd.DataFrame) -> pd.DataFrame:
         + (result["pl_rade"].between(0.5, 1.5).fillna(False).astype(float) * 0.3)
     )
     return result.sort_values(["baseline_score", "pl_name"], ascending=[False, True]).reset_index(drop=True)
+
+
+def followup_readiness_baseline(df: pd.DataFrame) -> pd.DataFrame:
+    result = df.copy()
+    readiness = result.get("followup_readiness_score", pd.Series(0.0, index=result.index)).fillna(0).astype(float)
+    data_quality = result.get("score_data_quality", pd.Series(0.0, index=result.index)).fillna(0).astype(float)
+    if "sy_dist" not in result.columns:
+        result["sy_dist"] = float("inf")
+    result["baseline_score"] = (0.6 * readiness) + (0.4 * data_quality)
+    return result.sort_values(["baseline_score", "sy_dist", "pl_name"], ascending=[False, True, True]).reset_index(drop=True)
